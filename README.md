@@ -1,3 +1,11 @@
 # zipbom-cms-api
 집봄 프로젝트 cms spring boot repository 입니다.
-* mariadb 10.65
+## Environments
+- language : java
+- framework : Spring boot
+- DB : MariaDB
+- data access : jpa
+## Versions
+- java : 1.8
+- Spring : 2.6.1
+- DB : 10.6.5
