@@ -1,4 +1,4 @@
-package com.zipbom.zipbom.service;
+package com.zipbom.zipbom.Auth.service;
 
 import org.springframework.stereotype.Service;
 
