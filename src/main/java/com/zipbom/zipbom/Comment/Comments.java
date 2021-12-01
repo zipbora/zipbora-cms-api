@@ -7,7 +7,7 @@ import java.util.List;
 
 public class Comments {
 
-    @OneToMany(mappedBy = "user",  cascade = {CascadeType.REMOVE},fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user",  cascade = CascadeType.PERSIST)
     private List<Comment> comments;
 
 }

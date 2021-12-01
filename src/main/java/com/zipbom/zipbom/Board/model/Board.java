@@ -1,5 +1,6 @@
-package com.zipbom.zipbom.Board;
+package com.zipbom.zipbom.Board.model;
 
+import com.zipbom.zipbom.Auth.model.User;
 import com.zipbom.zipbom.Comment.Comments;
 
 import javax.persistence.*;
@@ -19,4 +20,6 @@ public class Board {
 
     private Comments comments;
 
+    @ManyToOne
+    private User user;
 }
