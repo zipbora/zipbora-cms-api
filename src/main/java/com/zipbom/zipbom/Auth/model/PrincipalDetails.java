@@ -11,10 +11,12 @@ import java.util.List;
 public class PrincipalDetails implements UserDetails {
     private final String userId;
     private final Collection<? extends GrantedAuthority> authorities;
+    private String email;
 
-    private PrincipalDetails(String userId, Collection<? extends GrantedAuthority> authorities) {
+    private PrincipalDetails(String userId,String email, Collection<? extends GrantedAuthority> authorities) {
         this.authorities = authorities;
         this.userId = userId;
+        this.email = email;
     }
     public static PrincipalDetails of(User user) {
         List<GrantedAuthority> authorities = Collections.
@@ -22,11 +24,16 @@ public class PrincipalDetails implements UserDetails {
 
         return new PrincipalDetails(
                 user.getId(),
+                user.getEmail(),
                 authorities
         );
     }
     public String getUserId() {
         return this.userId;
+    }
+
+    public String getEmail() {
+        return this.email;
     }
 
     @Override
