@@ -11,4 +11,5 @@ import lombok.Setter;
 public class JwtGetUserInfoResponseDto {
     private String userId;
     private Role role;
+    private String email;
 }

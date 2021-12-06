@@ -9,6 +9,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
+
 @Component
 public class JwtUtil {
     private static long JWT_ACCESS_TOKEN_VALIDITY = 6000; // 10분
@@ -22,6 +23,7 @@ public class JwtUtil {
         }
         claims.put("userId", principalDetails.getUserId());
         claims.put("role", roles);
+        claims.put("email", principalDetails.getEmail());
         return Jwts.builder().setClaims(claims).setSubject(principalDetails.getUserId())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + JWT_ACCESS_TOKEN_VALIDITY * 1000))
@@ -30,11 +32,11 @@ public class JwtUtil {
 
     public JwtGetUserInfoResponseDto getUserInfo(String token) {
         Claims parseInfo = Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
-        Map<String, Object> result = new HashMap<>();
         JwtGetUserInfoResponseDto jwtGetUserInfoResponseDto =
                 JwtGetUserInfoResponseDto.builder()
-                .userId((String) parseInfo.get("userId"))
-                .build();
+                        .userId((String) parseInfo.get("userId"))
+                        .email((String) parseInfo.get("email"))
+                        .build();
         return jwtGetUserInfoResponseDto;
     }
 }

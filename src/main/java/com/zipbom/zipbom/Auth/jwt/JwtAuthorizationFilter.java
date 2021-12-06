@@ -36,7 +36,6 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
         // Read the Authorization header, where the JWT token should be
         String header = request.getHeader("Authorization");
-        logger.debug("zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz");
 
         // If header does not contain BEARER or is null delegate to Spring impl and exit
         if (header == null || !header.startsWith("Bearer")) {
@@ -55,7 +54,6 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
         String token = request.getHeader("Authorization")
                 .replace("Bearer ", ""); //Bear 다음에 한칸 뛰어야한다
         if (token != null) {
-            logger.debug("11111111111111111111111111111");
             try {
                 JwtGetUserInfoResponseDto jwtGetUserInfoResponseDto = jwtUtil.getUserInfo(token);
                 userId = jwtGetUserInfoResponseDto.getUserId();
@@ -63,11 +61,8 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
                 logger.debug("token maybe expired");
             }
             if (userId != null) {
-                logger.debug("2222222222222222222222222222222");
                 Optional<User> userOptional = userRepository.findByUserId(userId);
                 User user = userOptional.get();
-                logger.debug("user id : "+user.getId());
-                logger.debug("user role : "+user.getRole());
                 PrincipalDetails principalDetails = PrincipalDetails.of(user);
                 UsernamePasswordAuthenticationToken authentication =
                         new UsernamePasswordAuthenticationToken(principalDetails, null, principalDetails.getAuthorities());
