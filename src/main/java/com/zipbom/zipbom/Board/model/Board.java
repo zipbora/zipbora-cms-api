@@ -1,25 +1,23 @@
 package com.zipbom.zipbom.Board.model;
 
+
 import com.zipbom.zipbom.Auth.model.User;
 import com.zipbom.zipbom.Comment.Comments;
 
 import javax.persistence.*;
 
 @Entity
-@Table(name = "BOARD")
+@Table(name = "board")
 public class Board {
-
     @Id
-    @Column(name = "BOARD_ID")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
+    @Column(name = "board_id")
     private Long id;
 
-    private String title;
-
-    private String content;
-
+    @Embedded
     private Comments comments;
 
     @ManyToOne
+    @JoinColumn(name="user_id")
     private User user;
 }
