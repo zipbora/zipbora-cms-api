@@ -1,5 +1,5 @@
 # zipbom-cms-api
-집봄 프로젝트 cms spring boot repository 입니다.
+집봄 프로젝트 cms(contents management system) spring boot repository 입니다.
 ## Environments
 - language : java
 - framework : Spring boot
