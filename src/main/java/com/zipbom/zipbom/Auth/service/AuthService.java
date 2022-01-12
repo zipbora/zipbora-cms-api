@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
-import static com.zipbom.zipbom.Auth.enums.Role.USER;
+import static com.zipbom.zipbom.Auth.model.Role.USER;
 
 @Service
 public class AuthService {

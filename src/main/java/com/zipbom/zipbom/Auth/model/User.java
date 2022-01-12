@@ -1,7 +1,5 @@
 package com.zipbom.zipbom.Auth.model;
 
-import com.zipbom.zipbom.Auth.enums.Role;
-import com.zipbom.zipbom.Board.model.Boards;
 import lombok.*;
 
 import javax.persistence.*;
@@ -19,9 +17,6 @@ public class User {
     private String id;
 
     private String email;
-
-    @Embedded
-    private Boards boards;
 
     @Enumerated(EnumType.STRING)
     private Role role;

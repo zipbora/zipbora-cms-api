@@ -1,4 +1,4 @@
-package com.zipbom.zipbom.Auth.enums;
+package com.zipbom.zipbom.Auth.model;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
