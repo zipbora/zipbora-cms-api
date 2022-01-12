@@ -6,5 +6,5 @@ import lombok.Setter;
 @Getter
 @Setter
 public class AccessTokenDto {
-    private String accessToken;
+    private String code;
 }
