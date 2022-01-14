@@ -5,7 +5,8 @@ server:
     encoding:
       charset: utf-8
       enabled: true
-
+file:
+  path: D:/zipbom_file/
 spring:
   mvc:
     view:
