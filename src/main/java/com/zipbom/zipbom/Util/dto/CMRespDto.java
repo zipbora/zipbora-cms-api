@@ -1,4 +1,4 @@
-package com.zipbom.zipbom.Auth.dto;
+package com.zipbom.zipbom.Util.dto;
 
 import lombok.*;
 

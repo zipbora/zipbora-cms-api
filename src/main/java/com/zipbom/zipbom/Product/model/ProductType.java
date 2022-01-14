@@ -1,4 +1,4 @@
-package com.zipbom.zipbom.Auth.model;
+package com.zipbom.zipbom.Product.model;
 
 import lombok.RequiredArgsConstructor;
 

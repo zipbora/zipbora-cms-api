@@ -1,20 +1,15 @@
-package com.zipbom.zipbom.Auth.model;
+package com.zipbom.zipbom.Product.dto;
 
-import javax.persistence.*;
+import com.zipbom.zipbom.Auth.model.User;
+import com.zipbom.zipbom.Product.model.ProductType;
+import com.zipbom.zipbom.Product.model.TradeType;
+import lombok.Data;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-@Entity
-public class Product {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "product_id")
-    private Long id;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private User user;
+@Data
+public class LetRoomRequestDto {
 
     private ProductType productType;
 

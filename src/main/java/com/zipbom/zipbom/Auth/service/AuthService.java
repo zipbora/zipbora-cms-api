@@ -1,6 +1,6 @@
 package com.zipbom.zipbom.Auth.service;
 
-import com.zipbom.zipbom.Auth.dto.CMRespDto;
+import com.zipbom.zipbom.Util.dto.CMRespDto;
 import com.zipbom.zipbom.Auth.dto.CheckEmailDuplicateDto;
 import com.zipbom.zipbom.Auth.dto.LoginResponseDto;
 import com.zipbom.zipbom.Auth.dto.SignUpRequestDto;
