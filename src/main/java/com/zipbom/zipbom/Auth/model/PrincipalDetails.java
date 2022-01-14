@@ -1,5 +1,6 @@
 package com.zipbom.zipbom.Auth.model;
 
+import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -8,6 +9,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+@Getter
 public class PrincipalDetails implements UserDetails {
     private final String userId;
     private final Collection<? extends GrantedAuthority> authorities;

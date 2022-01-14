@@ -2,18 +2,26 @@ package com.zipbom.zipbom.Auth.jwt;
 
 import com.zipbom.zipbom.Auth.dto.JwtGetUserInfoResponseDto;
 import com.zipbom.zipbom.Auth.model.PrincipalDetails;
+import com.zipbom.zipbom.Auth.model.Role;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 
+import java.io.Serializable;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 @Component
-public class JwtUtil {
+public class JwtUtil implements Serializable {
+    private static final long serialVersionUID = -2550185165626007488L;
+
     private static final long JWT_ACCESS_TOKEN_VALIDITY = 6000; // 10분
-    private static final String secret = "zipbom";
+    @Value("${jwt.secret}")
+    private String secret;
 
     public String generateAccessToken(PrincipalDetails principalDetails) {
         Map<String, Object> claims = new HashMap<>();
@@ -32,10 +40,12 @@ public class JwtUtil {
 
     public JwtGetUserInfoResponseDto getUserInfo(String token) {
         Claims parseInfo = Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
+        String us= Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody().getSubject();
         JwtGetUserInfoResponseDto jwtGetUserInfoResponseDto =
                 JwtGetUserInfoResponseDto.builder()
                         .userId((String) parseInfo.get("userId"))
                         .email((String) parseInfo.get("email"))
+                        .role(parseInfo.get("role", List.class))
                         .build();
         return jwtGetUserInfoResponseDto;
     }

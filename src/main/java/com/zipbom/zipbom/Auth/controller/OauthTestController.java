@@ -27,6 +27,7 @@ public class OauthTestController {
     public String login(@RequestParam("code") String code, HttpSession session) {
         logger.info("code : " + code);
         String access_Token = kakao.getAccessToken(code);
+        logger.info("access token : " + access_Token);
         HashMap<String, Object> userInfo = kakao.getUserInfo(access_Token);
         System.out.println("login Controller : " + userInfo);
 

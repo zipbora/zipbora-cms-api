@@ -24,10 +24,11 @@ public class AuthService {
     @Autowired
     private JwtUtil jwtUtil;
 
-    public CMRespDto<?> login(String userId) {
-        User user = userRepository.findByUserId(userId)
-                .orElse(User.builder().id(userId).build());
+    public CMRespDto<?> login(String providerId) {
+        User user = userRepository.findByProviderId(providerId)
+                .orElse(User.builder().providerId(providerId).build());
         PrincipalDetails principalDetails = PrincipalDetails.of(user);
+
         String jwtToken = jwtUtil.generateAccessToken(principalDetails);
         LoginResponseDto loginResponseDTO = LoginResponseDto.builder()
                 .jwtToken(jwtToken)

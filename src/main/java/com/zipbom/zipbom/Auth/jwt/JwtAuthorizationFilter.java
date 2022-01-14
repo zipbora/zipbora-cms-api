@@ -61,7 +61,7 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
                 logger.debug("token maybe expired");
             }
             if (userId != null) {
-                Optional<User> userOptional = userRepository.findByUserId(userId);
+                Optional<User> userOptional = userRepository.findByProviderId(userId);
                 User user = userOptional.get();
                 PrincipalDetails principalDetails = PrincipalDetails.of(user);
                 UsernamePasswordAuthenticationToken authentication =

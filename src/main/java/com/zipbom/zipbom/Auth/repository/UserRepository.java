@@ -8,8 +8,8 @@ import org.springframework.data.repository.query.Param;
 import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<User, Integer> {
-    @Query(value = "select * from user where user_id = :id", nativeQuery = true)
-    Optional<User> findByUserId(@Param("id") String id);
+    @Query(value = "select * from user where providerId = :providerId", nativeQuery = true)
+    Optional<User> findByProviderId(@Param("providerId") String providerId);
 
     Boolean existsByEmail(String email);
 }

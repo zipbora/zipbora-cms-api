@@ -43,8 +43,7 @@ public class AuthController {
 
     @PostMapping(value = "/login")
     public CMRespDto<?> login(@RequestBody AccessTokenDto accessTokenDto) {
-        String access_Token = kakao.getAccessToken(accessTokenDto.getCode());
-        HashMap<String, Object> userInfo = kakao.getUserInfo(access_Token);
-        return authService.login((String) userInfo.get("id"));
+        HashMap<String, Object> userInfo = kakao.getUserInfo(accessTokenDto.getAccessToken());
+        return authService.login((String) userInfo.get("providerId"));
     }
 }
