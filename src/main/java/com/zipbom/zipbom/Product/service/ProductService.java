@@ -8,10 +8,7 @@ import com.zipbom.zipbom.Product.model.Product;
 import com.zipbom.zipbom.Product.repository.ProductRepository;
 import com.zipbom.zipbom.Util.dto.CMRespDto;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 public class ProductService {
@@ -50,5 +47,4 @@ public class ProductService {
         productRepository.save(product);
         return new CMRespDto<>(200, "let room success", null);
     }
-
 }

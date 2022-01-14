@@ -1,6 +1,5 @@
 package com.zipbom.zipbom.Product.dto;
 
-import com.zipbom.zipbom.Auth.model.User;
 import com.zipbom.zipbom.Product.model.ProductType;
 import com.zipbom.zipbom.Product.model.TradeType;
 import lombok.Data;

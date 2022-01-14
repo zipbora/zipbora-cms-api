@@ -23,8 +23,8 @@ import java.util.Optional;
 public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
     private static final Logger logger = LoggerFactory.getLogger(JwtAuthorizationFilter.class);
 
-    private JwtUtil jwtUtil;
-    private UserRepository userRepository;
+    private final JwtUtil jwtUtil;
+    private final UserRepository userRepository;
 
     public JwtAuthorizationFilter(AuthenticationManager authenticationManager, UserRepository userRepository, JwtUtil jwtUtil) {
         super(authenticationManager);

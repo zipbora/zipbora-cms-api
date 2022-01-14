@@ -1,7 +1,6 @@
 package com.zipbom.zipbom.Auth.model;
 
 import com.zipbom.zipbom.Product.model.Products;
-import com.zipbom.zipbom.Product.model.RecentViews;
 import lombok.*;
 
 import javax.persistence.*;
@@ -50,6 +49,7 @@ public class User {
 
     @Embedded
     private Products products;
+
     @PrePersist // 디비에 INSERT 되기 직전에 실행
     public void createDate() {
         this.createDate = LocalDateTime.now();

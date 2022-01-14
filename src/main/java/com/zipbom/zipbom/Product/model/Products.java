@@ -7,7 +7,7 @@ import java.util.List;
 public class Products {
 
     @OneToMany(mappedBy = "user")
-    private List<Product> productList = new ArrayList<>();
+    private final List<Product> productList = new ArrayList<>();
 
     public void addProduct(Product product) {
         productList.add(product);

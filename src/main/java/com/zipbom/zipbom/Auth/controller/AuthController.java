@@ -1,28 +1,29 @@
 package com.zipbom.zipbom.Auth.controller;
 
 import com.zipbom.zipbom.Auth.dto.AccessTokenDto;
-import com.zipbom.zipbom.Util.dto.CMRespDto;
 import com.zipbom.zipbom.Auth.dto.CheckEmailDuplicateDto;
 import com.zipbom.zipbom.Auth.dto.SignUpRequestDto;
 import com.zipbom.zipbom.Auth.service.AuthService;
 import com.zipbom.zipbom.Auth.service.KakaoAPI;
+import com.zipbom.zipbom.Util.dto.CMRespDto;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
 
 @RestController
 public class AuthController {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
-
-    @Autowired
-    private KakaoAPI kakao;
-
     @Autowired
     public AuthService authService;
+    @Autowired
+    private KakaoAPI kakao;
 
     @ApiOperation(value = "roleTest", notes = "roleTest")
     @GetMapping("/master")

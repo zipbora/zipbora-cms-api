@@ -2,7 +2,6 @@ package com.zipbom.zipbom.Product.model;
 
 import com.zipbom.zipbom.Auth.model.User;
 
-import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;

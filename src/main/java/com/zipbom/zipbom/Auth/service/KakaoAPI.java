@@ -1,24 +1,19 @@
 package com.zipbom.zipbom.Auth.service;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import org.springframework.stereotype.Service;
+
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
 
-import com.google.gson.JsonObject;
-import org.springframework.stereotype.Service;
-
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
-
 @Service
 public class KakaoAPI {
 
-    public String getAccessToken (String authorize_code) {
+    public String getAccessToken(String authorize_code) {
         String access_Token = "";
         String refresh_Token = "";
         String reqURL = "https://kauth.kakao.com/oauth/token";
@@ -67,7 +62,7 @@ public class KakaoAPI {
         return access_Token;
     }
 
-    public HashMap<String, Object> getUserInfo (String access_Token) {
+    public HashMap<String, Object> getUserInfo(String access_Token) {
 
         HashMap<String, Object> userInfo = new HashMap<>();
         String reqURL = "https://kapi.kakao.com/v2/user/me";

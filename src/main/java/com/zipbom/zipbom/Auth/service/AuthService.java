@@ -1,6 +1,5 @@
 package com.zipbom.zipbom.Auth.service;
 
-import com.zipbom.zipbom.Util.dto.CMRespDto;
 import com.zipbom.zipbom.Auth.dto.CheckEmailDuplicateDto;
 import com.zipbom.zipbom.Auth.dto.LoginResponseDto;
 import com.zipbom.zipbom.Auth.dto.SignUpRequestDto;
@@ -8,6 +7,7 @@ import com.zipbom.zipbom.Auth.jwt.JwtUtil;
 import com.zipbom.zipbom.Auth.model.PrincipalDetails;
 import com.zipbom.zipbom.Auth.model.User;
 import com.zipbom.zipbom.Auth.repository.UserRepository;
+import com.zipbom.zipbom.Util.dto.CMRespDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

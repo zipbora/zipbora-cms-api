@@ -5,7 +5,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -19,14 +18,14 @@ public class OauthTestController {
     @Autowired
     private KakaoAPI kakao;
 
-    @RequestMapping(value="/")
+    @RequestMapping(value = "/")
     public String index() {
         return "index";
     }
 
-    @RequestMapping(value="/login-test")
+    @RequestMapping(value = "/login-test")
     public String login(@RequestParam("code") String code, HttpSession session) {
-        logger.info("code : "+code);
+        logger.info("code : " + code);
         String access_Token = kakao.getAccessToken(code);
         HashMap<String, Object> userInfo = kakao.getUserInfo(access_Token);
         System.out.println("login Controller : " + userInfo);

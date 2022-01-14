@@ -12,8 +12,8 @@ import java.util.*;
 
 @Component
 public class JwtUtil {
-    private static long JWT_ACCESS_TOKEN_VALIDITY = 6000; // 10분
-    private static String secret = "zipbom";
+    private static final long JWT_ACCESS_TOKEN_VALIDITY = 6000; // 10분
+    private static final String secret = "zipbom";
 
     public String generateAccessToken(PrincipalDetails principalDetails) {
         Map<String, Object> claims = new HashMap<>();
