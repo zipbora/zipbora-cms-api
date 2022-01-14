@@ -21,7 +21,7 @@ public class PrincipalDetailsService implements UserDetailsService {
     @Transactional
     public UserDetails loadUserByUsername(String userId)
             throws UsernameNotFoundException {
-        Optional<User> userOptional = userRepository.findByUserId(userId);
+        Optional<User> userOptional = userRepository.findByProviderId(userId);
         if (!userOptional.isPresent()) {
             throw new IllegalArgumentException("user가 존재하지 않습니다.");
         }

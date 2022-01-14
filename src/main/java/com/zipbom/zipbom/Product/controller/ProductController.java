@@ -8,8 +8,8 @@ import com.zipbom.zipbom.Product.service.ProductService;
 import com.zipbom.zipbom.Util.dto.CMRespDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -21,8 +21,8 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
-    @PostMapping("/let/room")
-    public CMRespDto<?> letRoom(@AuthenticationPrincipal PrincipalDetails principalDetails, @RequestBody LetRoomRequestDto letRoomRequestDto) {
+    @PostMapping("/user/let/room")
+    public CMRespDto<?> letRoom(@AuthenticationPrincipal PrincipalDetails principalDetails, @ModelAttribute LetRoomRequestDto letRoomRequestDto) {
         return productService.letRoom(principalDetails, letRoomRequestDto);
     }
 }
