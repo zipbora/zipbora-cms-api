@@ -7,7 +7,10 @@ import javax.persistence.*;
 
 @Entity
 public class InterestedRoom {
-
+    public InterestedRoom(Product product,User user) {
+        this.product = product;
+        this.user = user;
+    }
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long Id;
