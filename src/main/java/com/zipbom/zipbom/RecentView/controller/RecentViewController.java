@@ -26,10 +26,6 @@ public class RecentViewController {
 
     @PostMapping("/user/add/recentView")
     public CMRespDto<?> addRecentView(@AuthenticationPrincipal PrincipalDetails principalDetails, @RequestBody AddRecentViewRequestDto addRecentViewRequestDto) {
-        System.out.println("============================");
-        System.out.println(addRecentViewRequestDto.getProductId().getClass());
-        System.out.println("============================");
-
         return recentViewService.addRecentView(principalDetails, addRecentViewRequestDto.getProductId());
     }
 }
