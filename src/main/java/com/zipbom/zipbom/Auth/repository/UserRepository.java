@@ -11,5 +11,8 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     @Query(value = "select * from user where providerId = :providerId", nativeQuery = true)
     Optional<User> findByProviderId(@Param("providerId") String providerId);
 
+    @Query(value = "select u from User as u where u.id = :id")
+    Optional<User> findByUserId(@Param("id") String id);
+
     Boolean existsByEmail(String email);
 }

@@ -26,7 +26,7 @@ public class AuthService {
 
     public CMRespDto<?> login(String providerId) {
         User user = userRepository.findByProviderId(providerId)
-                .orElse(User.builder().providerId(providerId).build());
+                .orElse(userRepository.save(User.builder().providerId(providerId).build()));
         PrincipalDetails principalDetails = PrincipalDetails.of(user);
 
         String jwtToken = jwtUtil.generateAccessToken(principalDetails);
