@@ -24,6 +24,7 @@ public class ProductImage {
     @Lob
     private final String fileEncoding;
     private final String fileType;
+    private final String fileUrl;
     @Value("${file.path}")
     private String rootPath;
     @Id
@@ -33,7 +34,6 @@ public class ProductImage {
     @ManyToOne
     @JoinColumn(name = "product_id")
     private Product product;
-    private final String fileUrl;
     private LocalDateTime createdAt;
 
     private ProductImage(String fileEncoding, String fileType, String fileName, Long fileSize, String fileUrl) {

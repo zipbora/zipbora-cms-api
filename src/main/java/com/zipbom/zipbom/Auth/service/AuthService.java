@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
 import java.util.UUID;
 
 import static com.zipbom.zipbom.Auth.model.Role.USER;
@@ -27,7 +26,7 @@ public class AuthService {
 
     public CMRespDto<?> login(String providerId) {
 
-        User user = userRepository.findByProviderId(providerId).orElseGet(()->userRepository.save(User.builder().
+        User user = userRepository.findByProviderId(providerId).orElseGet(() -> userRepository.save(User.builder().
                 providerId(providerId)
                 .id(UUID.randomUUID().toString()).build()));
         PrincipalDetails principalDetails = PrincipalDetails.of(user);

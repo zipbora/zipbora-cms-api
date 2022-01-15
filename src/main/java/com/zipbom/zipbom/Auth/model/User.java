@@ -1,7 +1,7 @@
 package com.zipbom.zipbom.Auth.model;
 
 import com.zipbom.zipbom.InterestedRoom.model.UserInterestedRooms;
-import com.zipbom.zipbom.Product.model.*;
+import com.zipbom.zipbom.Product.model.Products;
 import com.zipbom.zipbom.RecentView.model.RecentView;
 import com.zipbom.zipbom.RecentView.model.UserRecentViews;
 import lombok.*;

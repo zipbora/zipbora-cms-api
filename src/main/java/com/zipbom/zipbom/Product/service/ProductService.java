@@ -26,6 +26,7 @@ public class ProductService {
     private ProductRepository productRepository;
     @Autowired
     private ProductImageRepository productImageRepository;
+
     @Transactional
     public CMRespDto<?> letRoom(PrincipalDetails principalDetails, LetRoomRequestDto letRoomRequestDto) throws IOException {
         User user = userRepository.findByUserId(principalDetails.getUserId()).get();

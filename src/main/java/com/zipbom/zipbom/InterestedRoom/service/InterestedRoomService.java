@@ -27,6 +27,6 @@ public class InterestedRoomService {
         User user = userRepository.findByUserId(principalDetails.getUserId()).get();
         Product product = productRepository.findByProductId(addInterestedRoomRequestDto.getProductId()).get();
         InterestedRoom interestedRoom = new InterestedRoom(product, user);
-        return new CMRespDto<>(200,"add success",null);
+        return new CMRespDto<>(200, "add success", null);
     }
 }

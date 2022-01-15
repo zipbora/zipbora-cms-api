@@ -17,6 +17,6 @@ public class InterestedRoomController {
 
     @PostMapping("/user/add/interestedRoom")
     public CMRespDto<?> addInterestedRood(@AuthenticationPrincipal PrincipalDetails principalDetails, AddInterestedRoomRequestDto addInterestedRoomRequestDto) {
-        return interestedRoomService.addInterestedRoom(principalDetails,addInterestedRoomRequestDto);
+        return interestedRoomService.addInterestedRoom(principalDetails, addInterestedRoomRequestDto);
     }
 }

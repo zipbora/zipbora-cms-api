@@ -8,7 +8,7 @@ import java.util.List;
 
 public class UserRecentViews {
 
-    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private final List<RecentView> recentViews = new ArrayList<>();
 
     public void addRecentView(RecentView recentView) {

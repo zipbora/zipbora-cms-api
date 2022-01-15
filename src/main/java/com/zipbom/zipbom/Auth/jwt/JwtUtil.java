@@ -2,7 +2,6 @@ package com.zipbom.zipbom.Auth.jwt;
 
 import com.zipbom.zipbom.Auth.dto.JwtGetUserInfoResponseDto;
 import com.zipbom.zipbom.Auth.model.PrincipalDetails;
-import com.zipbom.zipbom.Auth.model.Role;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -11,8 +10,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 @Component
@@ -40,7 +37,7 @@ public class JwtUtil implements Serializable {
 
     public JwtGetUserInfoResponseDto getUserInfo(String token) {
         Claims parseInfo = Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
-        String us= Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody().getSubject();
+        String us = Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody().getSubject();
         JwtGetUserInfoResponseDto jwtGetUserInfoResponseDto =
                 JwtGetUserInfoResponseDto.builder()
                         .userId((String) parseInfo.get("userId"))

@@ -1,7 +1,5 @@
 package com.zipbom.zipbom.Product.dto;
 
-import com.zipbom.zipbom.Product.model.ProductImage;
-import com.zipbom.zipbom.Product.model.ProductImages;
 import com.zipbom.zipbom.Product.model.ProductType;
 import com.zipbom.zipbom.Product.model.TradeType;
 import lombok.Data;
@@ -10,6 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+
 @Data
 public class LetRoomRequestDto {
 
