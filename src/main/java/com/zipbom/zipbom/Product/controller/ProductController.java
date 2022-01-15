@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.IOException;
+
 @RestController
 public class ProductController {
     @Autowired
@@ -22,7 +24,7 @@ public class ProductController {
     private ProductService productService;
 
     @PostMapping("/user/let/room")
-    public CMRespDto<?> letRoom(@AuthenticationPrincipal PrincipalDetails principalDetails, @ModelAttribute LetRoomRequestDto letRoomRequestDto) {
+    public CMRespDto<?> letRoom(@AuthenticationPrincipal PrincipalDetails principalDetails, @ModelAttribute LetRoomRequestDto letRoomRequestDto) throws IOException {
         return productService.letRoom(principalDetails, letRoomRequestDto);
     }
 }

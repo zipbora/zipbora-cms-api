@@ -7,8 +7,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -21,42 +19,51 @@ import java.util.UUID;
 @AllArgsConstructor
 public class ProductImage {
 
-    @Value("${file.path}")
-    private String rootPath;
-
-    @Column(name = "product_image_id")
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-    private String imageUrl;
     private final String fileName;
     private final Long fileSize;
+    @Lob
     private final String fileEncoding;
     private final String fileType;
+    @Value("${file.path}")
+    private String rootPath;
+    @Id
+    @Column(name = "product_image_id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+    @ManyToOne
+    @JoinColumn(name = "product_id")
+    private Product product;
+    private final String fileUrl;
     private LocalDateTime createdAt;
 
-    private ProductImage(String fileEncoding, String fileType, String fileName, Long fileSize) {
+    private ProductImage(String fileEncoding, String fileType, String fileName, Long fileSize, String fileUrl) {
         this.fileType = fileType;
         this.fileName = fileName;
-        this.fileEncoding = fileEncoding;
         this.fileSize = fileSize;
+        this.fileUrl = fileUrl;
+        this.fileEncoding = fileEncoding;
     }
 
     public static ProductImage of(MultipartFile file) throws IOException {
-        String imageName = UUID.randomUUID() + "_" + file.getOriginalFilename();
-        String imageUrl = "D:/zipbom_file/" + imageName;
-        File f = new File(imageUrl);
-        FileInputStream fis = new FileInputStream(f);
-        byte[] byteArray = new byte[(int) f.length()];
-        fis.read(byteArray);
-        String fileEncoding = Base64.encodeBase64String(byteArray);
-        return new ProductImage(fileEncoding, file.getContentType(), file.getOriginalFilename(), file.getSize());
+        String fileUrl = makeUrl(file.getOriginalFilename());
+        String fileEncoding = encoding(file);
+        return new ProductImage(fileEncoding, file.getContentType(), file.getOriginalFilename(), file.getSize(), fileUrl);
     }
 
-    public static void FileWrite(MultipartFile file) throws IOException {
-        String imageName = UUID.randomUUID() + "_" + file.getOriginalFilename();
-        String imageUrl = "D:/zipbom_file/" + imageName;
-        Path path = Paths.get(imageUrl);
+    private static String encoding(MultipartFile file) throws IOException {
+        byte[] byteArray = Base64.encodeBase64(file.getBytes());
+        String fileEncoding = Base64.encodeBase64String(byteArray);
+        return fileEncoding;
+    }
+
+    private static String makeUrl(String fileName) {
+        String randomFileName = UUID.randomUUID() + "_" + fileName;
+        String fileUrl = "D:/zipbom_file/" + randomFileName;
+        return fileUrl;
+    }
+
+    public void fileWrite(MultipartFile file) throws IOException {
+        Path path = Paths.get(fileUrl);
         try {
             Files.write(path, file.getBytes());
         } catch (IOException ioException) {

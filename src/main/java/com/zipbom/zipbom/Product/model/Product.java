@@ -1,6 +1,8 @@
 package com.zipbom.zipbom.Product.model;
 
 import com.zipbom.zipbom.Auth.model.User;
+import com.zipbom.zipbom.InterestedRoom.model.ProductInterestedRooms;
+import com.zipbom.zipbom.RecentView.model.ProductRecentViews;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -24,7 +26,14 @@ public class Product {
     private User user;
 
     @Embedded
+    private ProductRecentViews recentViews;
+
+    @Embedded
+    private ProductInterestedRooms interestedRooms;
+
+    @Embedded
     private ProductImages productImages;
+
     private ProductType productType;
     private String address;
     private String detailAddress;
@@ -52,4 +61,9 @@ public class Product {
     public Product(User user) {
         this.user = user;
     }
+
+    public void addProduct(ProductImage productImage) {
+        productImages.add(productImage);
+    }
+
 }

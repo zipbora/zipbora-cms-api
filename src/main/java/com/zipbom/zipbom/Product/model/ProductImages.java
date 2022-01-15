@@ -1,17 +1,17 @@
 package com.zipbom.zipbom.Product.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ProductImages {
 
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "product_image_id")
-    private List<ProductImage> productImages;
+    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<ProductImage> productImages = new ArrayList<>();
 
-    private ProductImages() {
+    public ProductImages() {
     }
 
     public ProductImages(List<ProductImage> productImages) {
