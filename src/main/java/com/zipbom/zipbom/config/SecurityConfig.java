@@ -1,4 +1,4 @@
-package com.zipbom.zipbom.Auth.config;
+package com.zipbom.zipbom.config;
 
 import com.zipbom.zipbom.Auth.jwt.JwtAuthorizationFilter;
 import com.zipbom.zipbom.Auth.jwt.JwtUtil;
@@ -49,9 +49,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin().disable()
                 .httpBasic().disable()
                 .authorizeRequests()
-                .antMatchers("/user/**").hasAnyRole("USER", "MASTER", "SUB_MASTER")
-                .antMatchers("/submaster/**").hasAnyRole("SUB_MASTER", "MASTER")
-                .antMatchers("/master/**").hasRole("MASTER")
                 .anyRequest().permitAll();
     }
 }

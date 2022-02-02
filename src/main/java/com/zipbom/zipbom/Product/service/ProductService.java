@@ -4,6 +4,7 @@ import com.zipbom.zipbom.Auth.model.PrincipalDetails;
 import com.zipbom.zipbom.Auth.model.User;
 import com.zipbom.zipbom.Auth.repository.UserRepository;
 import com.zipbom.zipbom.Product.dto.LetRoomRequestDto;
+import com.zipbom.zipbom.Product.dto.ProductResponse;
 import com.zipbom.zipbom.Product.model.Product;
 import com.zipbom.zipbom.Product.model.ProductImage;
 import com.zipbom.zipbom.Product.model.ProductImages;
@@ -16,6 +17,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductService {
@@ -63,5 +66,12 @@ public class ProductService {
         productRepository.save(product);
 
         return new CMRespDto<>(200, "let room success", null);
+    }
+
+    public CMRespDto<?> getProducts() {
+        List<Product> products = productRepository.findAll();
+        return new CMRespDto<>(200, "get all products", products.stream()
+                .map(product -> new ProductResponse(product))
+                .collect(Collectors.toList()));
     }
 }

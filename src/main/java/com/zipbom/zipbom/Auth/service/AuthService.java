@@ -1,5 +1,6 @@
 package com.zipbom.zipbom.Auth.service;
 
+import com.zipbom.zipbom.Auth.dto.AccessTokenDto;
 import com.zipbom.zipbom.Auth.dto.CheckEmailDuplicateDto;
 import com.zipbom.zipbom.Auth.dto.LoginResponseDto;
 import com.zipbom.zipbom.Auth.dto.SignUpRequestDto;
@@ -23,14 +24,17 @@ public class AuthService {
     private UserRepository userRepository;
     @Autowired
     private JwtUtil jwtUtil;
+    @Autowired
+    private KakaoAPI kakao;
 
-    public CMRespDto<?> login(String providerId) {
+    public CMRespDto<?> login(AccessTokenDto accessTokenDto) {
+        String providerId = (String) kakao.getUserInfo(accessTokenDto.getAccessToken()).get("providerId");
 
-        User user = userRepository.findByProviderId(providerId).orElseGet(() -> userRepository.save(User.builder().
-                providerId(providerId)
-                .id(UUID.randomUUID().toString()).build()));
-        PrincipalDetails principalDetails = PrincipalDetails.of(user);
-        String jwtToken = jwtUtil.generateAccessToken(principalDetails);
+        User user = userRepository.findByProviderId(providerId)
+                .orElseGet(() -> userRepository.save(User.builder().providerId(providerId)
+                        .id(UUID.randomUUID().toString()).build()));
+
+        String jwtToken = jwtUtil.generateAccessToken(PrincipalDetails.of(user));
         LoginResponseDto loginResponseDTO = LoginResponseDto.builder()
                 .jwtToken(jwtToken)
                 .build();

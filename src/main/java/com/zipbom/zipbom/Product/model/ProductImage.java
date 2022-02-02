@@ -51,7 +51,7 @@ public class ProductImage {
     }
 
     private static String encoding(MultipartFile file) throws IOException {
-        byte[] byteArray = Base64.encodeBase64(file.getBytes());
+        byte[] byteArray = file.getBytes();
         String fileEncoding = Base64.encodeBase64String(byteArray);
         return fileEncoding;
     }

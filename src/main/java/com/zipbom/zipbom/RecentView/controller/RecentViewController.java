@@ -7,6 +7,7 @@ import com.zipbom.zipbom.RecentView.dto.AddRecentViewRequestDto;
 import com.zipbom.zipbom.RecentView.service.RecentViewService;
 import com.zipbom.zipbom.Util.dto.CMRespDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,7 +25,8 @@ public class RecentViewController {
     @Autowired
     private RecentViewService recentViewService;
 
-    @PostMapping("/user/add/recentView")
+    @PostMapping("/recentView")
+    @PreAuthorize("hasRole('ROLE_USER')")
     public CMRespDto<?> addRecentView(@AuthenticationPrincipal PrincipalDetails principalDetails, @RequestBody AddRecentViewRequestDto addRecentViewRequestDto) {
         return recentViewService.addRecentView(principalDetails, addRecentViewRequestDto.getProductId());
     }

@@ -1,5 +1,6 @@
 package com.zipbom.zipbom.Auth.model;
 
+import com.zipbom.zipbom.InterestedRoom.model.InterestedRoom;
 import com.zipbom.zipbom.InterestedRoom.model.UserInterestedRooms;
 import com.zipbom.zipbom.Product.model.Products;
 import com.zipbom.zipbom.RecentView.model.RecentView;
@@ -52,8 +53,12 @@ public class User {
     @Embedded
     private Products products;
 
-    public void addRecentViews(RecentView recentView) {
+    public void addRecentView(RecentView recentView) {
         recentViews.addRecentView(recentView);
+    }
+
+    public void addInterestedRoom(InterestedRoom interestedRoom){
+        userInterestedRooms.addInterestedRoom(interestedRoom);
     }
 
     public UserRecentViews getRecentViews() {

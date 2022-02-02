@@ -9,5 +9,4 @@ public class ZipbomApplication {
     public static void main(String[] args) {
         SpringApplication.run(ZipbomApplication.class, args);
     }
-
 }

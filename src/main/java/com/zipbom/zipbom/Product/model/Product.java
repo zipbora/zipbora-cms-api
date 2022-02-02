@@ -25,6 +25,8 @@ public class Product {
     @JoinColumn(name = "user_id")
     private User user;
 
+    private String thumbnail;
+
     @Embedded
     private ProductRecentViews recentViews;
 
@@ -33,7 +35,7 @@ public class Product {
 
     @Embedded
     private ProductImages productImages;
-
+    private long price;
     private ProductType productType;
     private String address;
     private String detailAddress;
@@ -55,7 +57,7 @@ public class Product {
     private LocalDateTime availableTime;
     private boolean isAgent;
 
-    private Product() {
+    protected Product() {
     }
 
     public Product(User user) {

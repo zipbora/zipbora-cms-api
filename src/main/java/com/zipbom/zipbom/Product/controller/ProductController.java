@@ -7,14 +7,14 @@ import com.zipbom.zipbom.Product.repository.ProductRepository;
 import com.zipbom.zipbom.Product.service.ProductService;
 import com.zipbom.zipbom.Util.dto.CMRespDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 
 @RestController
+@RequestMapping("/products")
 public class ProductController {
     @Autowired
     private UserRepository userRepository;
@@ -23,8 +23,14 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
-    @PostMapping("/user/let/room")
+    @PostMapping("/")
+    @PreAuthorize("hasRole('ROLE_USER')")
     public CMRespDto<?> letRoom(@AuthenticationPrincipal PrincipalDetails principalDetails, @ModelAttribute LetRoomRequestDto letRoomRequestDto) throws IOException {
         return productService.letRoom(principalDetails, letRoomRequestDto);
+    }
+
+    @GetMapping("/")
+    public CMRespDto<?> rooms() {
+        return productService.getProducts();
     }
 }

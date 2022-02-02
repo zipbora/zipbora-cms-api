@@ -26,8 +26,7 @@ public class RecentViewService {
         User user = userRepository.findByUserId(principalDetails.getUserId()).get();
         Product product = productRepository.findByProductId(productId).get();
         RecentView recentView = new RecentView(product, user);
-        user.addRecentViews(recentView);
-        recentViewRepository.save(recentView);
+        user.addRecentView(recentView);
         return new CMRespDto<>(200, "add success", null);
     }
 }

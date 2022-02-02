@@ -10,6 +10,7 @@ import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,10 +26,16 @@ public class AuthController {
     @Autowired
     private KakaoAPI kakao;
 
-    @ApiOperation(value = "roleTest", notes = "roleTest")
     @GetMapping("/master")
+    @PreAuthorize("hasRole('ROLE_MASTER')")
     public String masterJsonReturnTest() {
         return "Hello Master";
+    }
+
+    @GetMapping("/user")
+    @PreAuthorize("hasRole('ROLE_MASTER')")
+    public String userJsonReturnTest() {
+        return "Hello user";
     }
 
     @PostMapping("/checkEmailDuplicate")
@@ -43,7 +50,6 @@ public class AuthController {
 
     @PostMapping(value = "/login")
     public CMRespDto<?> login(@RequestBody AccessTokenDto accessTokenDto) {
-        HashMap<String, Object> userInfo = kakao.getUserInfo(accessTokenDto.getAccessToken());
-        return authService.login((String) userInfo.get("providerId"));
+        return authService.login(accessTokenDto);
     }
 }
