@@ -12,6 +12,8 @@ import com.zipbom.zipbom.Util.dto.CMRespDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
+
 @Service
 public class InterestedRoomService {
     @Autowired
@@ -25,7 +27,9 @@ public class InterestedRoomService {
 
     public CMRespDto<?> addInterestedRoom(PrincipalDetails principalDetails, AddInterestedRoomRequestDto addInterestedRoomRequestDto) {
         User user = userRepository.findByUserId(principalDetails.getUserId()).get();
-        Product product = productRepository.findByProductId(addInterestedRoomRequestDto.getProductId()).get();
+
+        Product product = productRepository.findByProductId(addInterestedRoomRequestDto.getProductId())
+                .orElseThrow(() -> new EntityNotFoundException());
         InterestedRoom interestedRoom = new InterestedRoom(product, user);
         user.addInterestedRoom(interestedRoom);
         return new CMRespDto<>(200, "add success", null);

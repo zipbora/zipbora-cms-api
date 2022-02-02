@@ -6,6 +6,7 @@ import com.zipbom.zipbom.Auth.dto.LoginResponseDto;
 import com.zipbom.zipbom.Auth.dto.SignUpRequestDto;
 import com.zipbom.zipbom.Auth.jwt.JwtUtil;
 import com.zipbom.zipbom.Auth.model.PrincipalDetails;
+import com.zipbom.zipbom.Auth.model.Role;
 import com.zipbom.zipbom.Auth.model.User;
 import com.zipbom.zipbom.Auth.repository.UserRepository;
 import com.zipbom.zipbom.Util.dto.CMRespDto;
@@ -31,8 +32,11 @@ public class AuthService {
         String providerId = (String) kakao.getUserInfo(accessTokenDto.getAccessToken()).get("providerId");
 
         User user = userRepository.findByProviderId(providerId)
-                .orElseGet(() -> userRepository.save(User.builder().providerId(providerId)
-                        .id(UUID.randomUUID().toString()).build()));
+                .orElseGet(() -> userRepository.save(User.builder()
+                        .providerId(providerId)
+                        .id(UUID.randomUUID().toString())
+                        .role(USER)
+                        .build()));
 
         String jwtToken = jwtUtil.generateAccessToken(PrincipalDetails.of(user));
         LoginResponseDto loginResponseDTO = LoginResponseDto.builder()

@@ -33,7 +33,7 @@ public class AuthController {
     }
 
     @GetMapping("/user")
-    @PreAuthorize("hasRole('ROLE_MASTER')")
+    @PreAuthorize("hasRole('ROLE_USER')")
     public String userJsonReturnTest() {
         return "Hello user";
     }

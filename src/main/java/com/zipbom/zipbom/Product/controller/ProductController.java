@@ -23,14 +23,14 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
-    @PostMapping("/")
+    @PostMapping
     @PreAuthorize("hasRole('ROLE_USER')")
-    public CMRespDto<?> letRoom(@AuthenticationPrincipal PrincipalDetails principalDetails, @ModelAttribute LetRoomRequestDto letRoomRequestDto) throws IOException {
+    public CMRespDto<?> createProduct(@AuthenticationPrincipal PrincipalDetails principalDetails, @ModelAttribute LetRoomRequestDto letRoomRequestDto) throws IOException {
         return productService.letRoom(principalDetails, letRoomRequestDto);
     }
 
-    @GetMapping("/")
-    public CMRespDto<?> rooms() {
+    @GetMapping
+    public CMRespDto<?> getProducts() {
         return productService.getProducts();
     }
 }

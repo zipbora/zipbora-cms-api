@@ -13,12 +13,12 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
+import javax.persistence.EntityNotFoundException;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Optional;
 
 public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
     private static final Logger logger = LoggerFactory.getLogger(JwtAuthorizationFilter.class);
@@ -61,11 +61,16 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
                 logger.debug("token maybe expired");
             }
             if (userId != null) {
-                Optional<User> userOptional = userRepository.findByProviderId(userId);
-                User user = userOptional.get();
+                System.out.println("=======================");
+                System.out.println(userId);
+                System.out.println("=======================");
+
+                User user = userRepository.findByUserId(userId).orElseThrow(() ->
+                        new EntityNotFoundException("user is not exist"));
                 PrincipalDetails principalDetails = PrincipalDetails.of(user);
                 UsernamePasswordAuthenticationToken authentication =
-                        new UsernamePasswordAuthenticationToken(principalDetails, null, principalDetails.getAuthorities());
+                        new UsernamePasswordAuthenticationToken(principalDetails,
+                                null, principalDetails.getAuthorities());
                 return authentication;
             } else {
                 logger.info("token maybe expired: userUuid is null.");
