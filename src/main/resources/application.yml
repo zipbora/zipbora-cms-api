@@ -6,7 +6,9 @@ server:
       charset: utf-8
       enabled: true
 file:
-  path: D:/zipbom_file/
+  path: ${FILE_PATH:D:/zipbom_file/}
+jwt:
+  secret: ${jwt_secret:zipbom}
 spring:
   mvc:
     view:
@@ -14,13 +16,13 @@ spring:
       suffix: .jsp
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://localhost:3309/zipbom?serverTimezone=Asia/Seoul
+    url: jdbc:mariadb://localhost:3306/zipbom?serverTimezone=Asia/Seoul
     username: mj
     password: zipbom
   jpa:
     open-in-view: true
     hibernate:
-      ddl-auto: none
+      ddl-auto: update
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     show-sql: true
