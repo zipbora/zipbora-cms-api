@@ -1,5 +1,6 @@
 package com.zipbom.zipbom.Product.model;
 
+import com.zipbom.zipbom.Util.base64.Base64Converter;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import org.apache.tomcat.util.codec.binary.Base64;
@@ -49,14 +50,8 @@ public class ProductImage {
 
     public static ProductImage of(MultipartFile file) throws IOException {
         String fileUrl = makeUrl(file.getOriginalFilename());
-        String fileEncoding = encoding(file);
+        String fileEncoding = Base64Converter.getEncodedStringFromBlob(file.getBytes());
         return new ProductImage(fileEncoding, file.getContentType(), file.getOriginalFilename(), file.getSize(), fileUrl);
-    }
-
-    private static String encoding(MultipartFile file) throws IOException {
-        byte[] byteArray = file.getBytes();
-        String fileEncoding = Base64.encodeBase64String(byteArray);
-        return fileEncoding;
     }
 
     private static String makeUrl(String fileName) {
