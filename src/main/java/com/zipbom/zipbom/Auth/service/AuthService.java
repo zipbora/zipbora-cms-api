@@ -1,12 +1,10 @@
 package com.zipbom.zipbom.Auth.service;
 
-import com.zipbom.zipbom.Auth.dto.AccessTokenDto;
-import com.zipbom.zipbom.Auth.dto.CheckEmailDuplicateDto;
-import com.zipbom.zipbom.Auth.dto.LoginResponseDto;
-import com.zipbom.zipbom.Auth.dto.SignUpRequestDto;
+import com.zipbom.zipbom.Auth.dto.*;
+import com.zipbom.zipbom.Auth.jwt.JwtServiceImpl;
 import com.zipbom.zipbom.Auth.jwt.JwtUtil;
+import com.zipbom.zipbom.Auth.jwt.UserAuthority;
 import com.zipbom.zipbom.Auth.model.PrincipalDetails;
-import com.zipbom.zipbom.Auth.model.Role;
 import com.zipbom.zipbom.Auth.model.User;
 import com.zipbom.zipbom.Auth.repository.UserRepository;
 import com.zipbom.zipbom.Util.dto.CMRespDto;
@@ -14,9 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
 import java.util.UUID;
-
-import static com.zipbom.zipbom.Auth.model.Role.USER;
 
 @Service
 public class AuthService {
@@ -28,17 +25,24 @@ public class AuthService {
     @Autowired
     private KakaoAPI kakao;
 
-    public CMRespDto<?> login(AccessTokenDto accessTokenDto) {
-        String providerId = (String) kakao.getUserInfo(accessTokenDto.getAccessToken()).get("providerId");
+    @Autowired
+    private JwtServiceImpl jwtService;
+    public CMRespDto<?> login(LoginDto loginDto) {
+        String providerId = (String) kakao.getUserInfo(loginDto.getAccessToken()).get("providerId");
 
         User user = userRepository.findByProviderId(providerId)
                 .orElseGet(() -> userRepository.save(User.builder()
                         .providerId(providerId)
                         .id(UUID.randomUUID().toString())
-                        .role(USER)
+                        .userAuthority(UserAuthority.ROLE_ANONYMOUS_USER)
                         .build()));
 
-        String jwtToken = jwtUtil.generateAccessToken(PrincipalDetails.of(user));
+        JwtGetUserInfoResponseDto jwtGetUserInfoResponseDto = JwtGetUserInfoResponseDto.builder()
+                .userId(user.getId())
+                .role(Arrays.asList(loginDto.getUserAuthority()))
+                .build();
+
+        String jwtToken = jwtService.createToken(jwtGetUserInfoResponseDto);
         LoginResponseDto loginResponseDTO = LoginResponseDto.builder()
                 .jwtToken(jwtToken)
                 .build();
@@ -54,7 +58,7 @@ public class AuthService {
         User user = User.builder()
                 .id(UUID.randomUUID().toString())
                 .email(email)
-                .role(USER)
+                .userAuthority(UserAuthority.ROLE_ANONYMOUS_USER)
                 .build();
         userRepository.save(user);
         PrincipalDetails principalDetails = PrincipalDetails.of(user);
