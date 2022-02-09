@@ -1,6 +1,6 @@
 package com.zipbom.zipbom.RecentView.service;
 
-import com.zipbom.zipbom.Auth.model.PrincipalDetails;
+import com.zipbom.zipbom.Auth.jwt.JwtServiceImpl;
 import com.zipbom.zipbom.Auth.model.User;
 import com.zipbom.zipbom.Auth.repository.UserRepository;
 import com.zipbom.zipbom.Product.model.Product;
@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletRequest;
+
 @Service
 public class RecentViewService {
     @Autowired
@@ -20,13 +22,22 @@ public class RecentViewService {
     private RecentViewRepository recentViewRepository;
     @Autowired
     private ProductRepository productRepository;
+    @Autowired
+    private JwtServiceImpl jwtService;
 
     @Transactional
-    public CMRespDto<?> addRecentView(PrincipalDetails principalDetails, Long productId) {
-        User user = userRepository.findByUserId(principalDetails.getUserId()).get();
+    public CMRespDto<?> addRecentView(HttpServletRequest httpServletRequest, Long productId) {
+
+        User user = userRepository.findByUserId(
+                (String) jwtService.getInfo(httpServletRequest.getHeader("jwt-auth-token")).get("userId"))
+                .orElseThrow(IllegalArgumentException::new);
+
         Product product = productRepository.findByProductId(productId).get();
+
         RecentView recentView = new RecentView(product, user);
+
         user.addRecentView(recentView);
+
         return new CMRespDto<>(200, "add success", null);
     }
 }

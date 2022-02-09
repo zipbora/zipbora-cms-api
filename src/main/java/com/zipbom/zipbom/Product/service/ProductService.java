@@ -1,6 +1,6 @@
 package com.zipbom.zipbom.Product.service;
 
-import com.zipbom.zipbom.Auth.model.PrincipalDetails;
+import com.zipbom.zipbom.Auth.jwt.JwtServiceImpl;
 import com.zipbom.zipbom.Auth.model.User;
 import com.zipbom.zipbom.Auth.repository.UserRepository;
 import com.zipbom.zipbom.Product.dto.LetRoomRequestDto;
@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -29,10 +30,16 @@ public class ProductService {
     private ProductRepository productRepository;
     @Autowired
     private ProductImageRepository productImageRepository;
-
+    @Autowired
+    private JwtServiceImpl jwtService;
     @Transactional
-    public CMRespDto<?> letRoom(PrincipalDetails principalDetails, LetRoomRequestDto letRoomRequestDto) throws IOException {
-        User user = userRepository.findByUserId(principalDetails.getUserId()).get();
+    public CMRespDto<?> letRoom(HttpServletRequest httpServletRequest, LetRoomRequestDto letRoomRequestDto)
+            throws IOException {
+
+        User user = userRepository.findByUserId(
+                (String) jwtService.getInfo(httpServletRequest.getHeader("jwt-auth-token")).get("userId"))
+                .orElseThrow(IllegalArgumentException::new);
+
         Product product =
                 Product.builder().address(letRoomRequestDto.getAddress())
                         .availableTime(letRoomRequestDto.getAvailableTime())

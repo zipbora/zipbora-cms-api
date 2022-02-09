@@ -1,6 +1,6 @@
 package com.zipbom.zipbom.InterestedRoom.service;
 
-import com.zipbom.zipbom.Auth.model.PrincipalDetails;
+import com.zipbom.zipbom.Auth.jwt.JwtServiceImpl;
 import com.zipbom.zipbom.Auth.model.User;
 import com.zipbom.zipbom.Auth.repository.UserRepository;
 import com.zipbom.zipbom.InterestedRoom.dto.AddInterestedRoomRequestDto;
@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
+import javax.servlet.http.HttpServletRequest;
 
 @Service
 public class InterestedRoomService {
@@ -24,9 +25,12 @@ public class InterestedRoomService {
 
     @Autowired
     private InterestedRoomRepository InterestedRoomRepository;
-
-    public CMRespDto<?> addInterestedRoom(PrincipalDetails principalDetails, AddInterestedRoomRequestDto addInterestedRoomRequestDto) {
-        User user = userRepository.findByUserId(principalDetails.getUserId()).get();
+    @Autowired
+    private JwtServiceImpl jwtService;
+    public CMRespDto<?> addInterestedRoom(HttpServletRequest httpServletRequest, AddInterestedRoomRequestDto addInterestedRoomRequestDto) {
+        User user = userRepository.findByUserId(
+                (String) jwtService.getInfo(httpServletRequest.getHeader("jwt-auth-token")).get("userId"))
+                .orElseThrow(IllegalArgumentException::new);
 
         Product product = productRepository.findByProductId(addInterestedRoomRequestDto.getProductId())
                 .orElseThrow(() -> new EntityNotFoundException());
