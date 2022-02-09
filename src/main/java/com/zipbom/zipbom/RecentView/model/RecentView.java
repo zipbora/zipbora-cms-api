@@ -18,8 +18,7 @@ public class RecentView {
     @JoinColumn(name = "user_id")
     private User user;
 
-    private RecentView() {
-
+    protected RecentView() {
     }
 
     public RecentView(Product product, User user) {
