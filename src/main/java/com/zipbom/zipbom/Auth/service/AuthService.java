@@ -2,17 +2,13 @@ package com.zipbom.zipbom.Auth.service;
 
 import com.zipbom.zipbom.Auth.dto.*;
 import com.zipbom.zipbom.Auth.jwt.JwtServiceImpl;
-import com.zipbom.zipbom.Auth.jwt.JwtUtil;
 import com.zipbom.zipbom.Auth.jwt.UserAuthority;
-import com.zipbom.zipbom.Auth.model.PrincipalDetails;
 import com.zipbom.zipbom.Auth.model.User;
 import com.zipbom.zipbom.Auth.repository.UserRepository;
 import com.zipbom.zipbom.Util.dto.CMRespDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Arrays;
 import java.util.UUID;
 
 @Service
@@ -20,13 +16,13 @@ public class AuthService {
 
     @Autowired
     private UserRepository userRepository;
-    @Autowired
-    private JwtUtil jwtUtil;
+
     @Autowired
     private KakaoAPI kakao;
 
     @Autowired
     private JwtServiceImpl jwtService;
+
     public CMRespDto<?> login(LoginDto loginDto) {
         String providerId = (String) kakao.getUserInfo(loginDto.getAccessToken()).get("providerId");
 
@@ -37,12 +33,8 @@ public class AuthService {
                         .userAuthority(UserAuthority.ROLE_ANONYMOUS_USER)
                         .build()));
 
-        JwtGetUserInfoResponseDto jwtGetUserInfoResponseDto = JwtGetUserInfoResponseDto.builder()
-                .userId(user.getId())
-                .role(Arrays.asList(loginDto.getUserAuthority()))
-                .build();
+        String jwtToken = jwtService.createToken(new JwtGetUserInfoResponseDto(user));
 
-        String jwtToken = jwtService.createToken(jwtGetUserInfoResponseDto);
         LoginResponseDto loginResponseDTO = LoginResponseDto.builder()
                 .jwtToken(jwtToken)
                 .build();
@@ -55,14 +47,15 @@ public class AuthService {
         if (userRepository.existsByEmail(email)) {
             return new CMRespDto<>(500, "중복 회원 존재", email);
         }
+
         User user = User.builder()
                 .id(UUID.randomUUID().toString())
                 .email(email)
                 .userAuthority(UserAuthority.ROLE_ANONYMOUS_USER)
                 .build();
         userRepository.save(user);
-        PrincipalDetails principalDetails = PrincipalDetails.of(user);
-        String jwtToken = jwtUtil.generateAccessToken(principalDetails);
+
+        String jwtToken = jwtService.createToken(new JwtGetUserInfoResponseDto(user));
         return new CMRespDto<>(200, "회원 가입 성공", jwtToken);
     }
 
