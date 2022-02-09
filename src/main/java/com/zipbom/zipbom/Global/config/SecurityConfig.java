@@ -1,4 +1,4 @@
-package com.zipbom.zipbom.global.config;
+package com.zipbom.zipbom.Global.config;
 
 import com.zipbom.zipbom.Auth.jwt.JwtAuthorizationFilter;
 import com.zipbom.zipbom.Auth.jwt.JwtUtil;
@@ -41,11 +41,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .addFilter(corsConfig.corsFilter())
-                .csrf().disable() //csrf 토큰
+                .csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .addFilter(new JwtAuthorizationFilter(authenticationManager(), userRepository, jwtUtil))
                 .formLogin().disable()
                 .httpBasic().disable()
                 .authorizeRequests()
