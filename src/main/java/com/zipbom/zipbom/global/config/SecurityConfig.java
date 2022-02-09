@@ -1,4 +1,4 @@
-package com.zipbom.zipbom.config;
+package com.zipbom.zipbom.global.config;
 
 import com.zipbom.zipbom.Auth.jwt.JwtAuthorizationFilter;
 import com.zipbom.zipbom.Auth.jwt.JwtUtil;
