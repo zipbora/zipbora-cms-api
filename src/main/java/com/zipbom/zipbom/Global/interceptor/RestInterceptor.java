@@ -5,7 +5,7 @@ import com.zipbom.zipbom.Auth.dto.JwtGetUserInfoResponseDto;
 import com.zipbom.zipbom.Auth.jwt.JwtAuthorityChecker;
 import com.zipbom.zipbom.Auth.jwt.JwtServiceImpl;
 import com.zipbom.zipbom.Global.exception.BusinessException;
-import com.zipbom.zipbom.Global.exception.error.ErrorCode;
+import com.zipbom.zipbom.Global.exception.ErrorCode;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -44,13 +44,13 @@ public class RestInterceptor implements HandlerInterceptor {
         }
 
         String token = request.getHeader("jwt-auth-token");
-
         if (token != null && token.length() > 0) {
             jwtService.checkValid(token);
             ObjectMapper mapper = new ObjectMapper();
-            if (jwtService.getInfo(token).get("User") != null) {
-                JwtGetUserInfoResponseDto jwtGetUserInfoResponseDto = mapper.convertValue(jwtService.getInfo(token).get("User"), JwtGetUserInfoResponseDto.class);
-                if (functionAuthority.authority().equals(jwtGetUserInfoResponseDto.getRole())) {
+            if (jwtService.getInfo(token).get("user") != null) {
+                JwtGetUserInfoResponseDto jwtGetUserInfoResponseDto = mapper.convertValue(jwtService.getInfo(token).get("user"), JwtGetUserInfoResponseDto.class);
+                //TODO 권한이 한 개라고 가정
+                if (functionAuthority.authority() == jwtGetUserInfoResponseDto.getRole().get(0)) {
                     return true;
                 }
             }
