@@ -1,5 +1,6 @@
 package com.zipbom.zipbom.Auth.jwt;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zipbom.zipbom.Auth.dto.JwtGetUserInfoResponseDto;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
@@ -31,11 +32,24 @@ public class JwtServiceImpl {
         Jws<Claims> claims;
         try {
             claims = Jwts.parser().setSigningKey(secretKey.getBytes()).parseClaimsJws(token); // secretKey를 사용하여 복호화
-        } catch(Exception e) {
+        } catch (Exception e) {
             return null;
         }
 
         return claims.getBody();
+    }
+
+    public String getUserId(String token) {
+        JwtGetUserInfoResponseDto jwtGetUserInfoResponseDto = null;
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            jwtGetUserInfoResponseDto = mapper.convertValue(
+                    getInfo(token).get("user")
+                    , JwtGetUserInfoResponseDto.class);
+        } catch (Exception e) {
+            return null;
+        }
+        return jwtGetUserInfoResponseDto.getUserId();
     }
 
     public void checkValid(String token) {

@@ -5,6 +5,8 @@ import com.zipbom.zipbom.Auth.jwt.JwtServiceImpl;
 import com.zipbom.zipbom.Auth.jwt.UserAuthority;
 import com.zipbom.zipbom.Auth.model.User;
 import com.zipbom.zipbom.Auth.repository.UserRepository;
+import com.zipbom.zipbom.Global.exception.BusinessException;
+import com.zipbom.zipbom.Global.exception.ErrorCode;
 import com.zipbom.zipbom.Util.dto.CMRespDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,13 +26,14 @@ public class AuthService {
     private JwtServiceImpl jwtService;
 
     public CMRespDto<?> login(LoginDto loginDto) {
+        UserAuthority userAuthority =  checkAuthority(loginDto.getUserAuthority());
         String providerId = (String) kakao.getUserInfo(loginDto.getAccessToken()).get("providerId");
 
         User user = userRepository.findByProviderId(providerId)
                 .orElseGet(() -> userRepository.save(User.builder()
                         .providerId(providerId)
                         .id(UUID.randomUUID().toString())
-                        .userAuthority(UserAuthority.ROLE_ANONYMOUS_USER)
+                        .userAuthority(userAuthority)
                         .build()));
 
         String jwtToken = jwtService.createToken(new JwtGetUserInfoResponseDto(user));
@@ -39,6 +42,13 @@ public class AuthService {
                 .jwtToken(jwtToken)
                 .build();
         return new CMRespDto<>(200, "jwt 반환", loginResponseDTO);
+    }
+
+    private UserAuthority checkAuthority(UserAuthority userAuthority) {
+        if (userAuthority == null) {
+            throw new BusinessException(ErrorCode.LOGIN_AUTHORITY_NULL);
+        }
+        return userAuthority;
     }
 
     @Transactional
