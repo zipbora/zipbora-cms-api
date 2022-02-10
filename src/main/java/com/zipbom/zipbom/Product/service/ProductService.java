@@ -1,5 +1,7 @@
 package com.zipbom.zipbom.Product.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.zipbom.zipbom.Auth.dto.JwtGetUserInfoResponseDto;
 import com.zipbom.zipbom.Auth.jwt.JwtServiceImpl;
 import com.zipbom.zipbom.Auth.model.User;
 import com.zipbom.zipbom.Auth.repository.UserRepository;
@@ -11,6 +13,7 @@ import com.zipbom.zipbom.Product.model.ProductImages;
 import com.zipbom.zipbom.Product.repository.ProductImageRepository;
 import com.zipbom.zipbom.Product.repository.ProductRepository;
 import com.zipbom.zipbom.Util.dto.CMRespDto;
+import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,12 +35,12 @@ public class ProductService {
     private ProductImageRepository productImageRepository;
     @Autowired
     private JwtServiceImpl jwtService;
+
     @Transactional
     public CMRespDto<?> letRoom(HttpServletRequest httpServletRequest, LetRoomRequestDto letRoomRequestDto)
             throws IOException {
 
-        User user = userRepository.findByUserId(
-                (String) jwtService.getInfo(httpServletRequest.getHeader("jwt-auth-token")).get("userId"))
+        User user = userRepository.findByUserId(jwtService.getUserId(httpServletRequest.getHeader("jwt-auth-token")))
                 .orElseThrow(IllegalArgumentException::new);
 
         Product product =

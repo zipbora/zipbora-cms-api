@@ -1,5 +1,7 @@
 package com.zipbom.zipbom.Product.controller;
 
+import com.zipbom.zipbom.Auth.jwt.JwtAuthorityChecker;
+import com.zipbom.zipbom.Auth.jwt.UserAuthority;
 import com.zipbom.zipbom.Auth.repository.UserRepository;
 import com.zipbom.zipbom.Product.dto.LetRoomRequestDto;
 import com.zipbom.zipbom.Product.repository.ProductRepository;
@@ -23,7 +25,7 @@ public class ProductController {
     private ProductService productService;
 
     @PostMapping
-    @PreAuthorize("hasRole('ROLE_USER')")
+    @JwtAuthorityChecker(authority = UserAuthority.ROLE_USER)
     public CMRespDto<?> createProduct(HttpServletRequest httpServletRequest, @ModelAttribute LetRoomRequestDto letRoomRequestDto) throws IOException {
         return productService.letRoom(httpServletRequest, letRoomRequestDto);
     }
