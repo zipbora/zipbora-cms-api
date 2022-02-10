@@ -1,7 +1,5 @@
 package com.zipbom.zipbom.Global.exception;
 
-import com.zipbom.zipbom.Global.exception.error.ErrorCode;
-
 public class BusinessException extends RuntimeException{
     private final ErrorCode errorCode;
 
@@ -9,4 +7,8 @@ public class BusinessException extends RuntimeException{
         super(errorCode.getMessage());
         this.errorCode = errorCode;
     }
+    public ErrorCode getErrorCode() {
+        return errorCode;
+    }
+
 }
