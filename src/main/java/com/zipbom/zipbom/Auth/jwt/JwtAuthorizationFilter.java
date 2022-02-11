@@ -61,10 +61,6 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
                 logger.debug("token maybe expired");
             }
             if (userId != null) {
-                System.out.println("=======================");
-                System.out.println(userId);
-                System.out.println("=======================");
-
                 User user = userRepository.findByUserId(userId).orElseThrow(() ->
                         new EntityNotFoundException("user is not exist"));
                 PrincipalDetails principalDetails = PrincipalDetails.of(user);
