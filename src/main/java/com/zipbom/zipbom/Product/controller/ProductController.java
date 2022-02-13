@@ -31,7 +31,7 @@ public class ProductController {
     }
 
     @GetMapping
-    public CMRespDto<?> getProducts() {
+    public CMRespDto<?> getProducts(@PathVariable float latitude, @PathVariable float longitude) {
         return productService.getProducts();
     }
 }
