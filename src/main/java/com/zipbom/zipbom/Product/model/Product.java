@@ -56,6 +56,9 @@ public class Product {
     private String detailExplanation;
     private LocalDateTime availableTime;
     private boolean isAgent;
+    private double latitude;
+    private double longitude;
+
 
     protected Product() {
     }

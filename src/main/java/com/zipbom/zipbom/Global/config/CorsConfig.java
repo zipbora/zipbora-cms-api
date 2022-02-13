@@ -1,4 +1,4 @@
-package com.zipbom.zipbom.global.config;
+package com.zipbom.zipbom.Global.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

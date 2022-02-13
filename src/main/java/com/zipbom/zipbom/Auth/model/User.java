@@ -1,5 +1,6 @@
 package com.zipbom.zipbom.Auth.model;
 
+import com.zipbom.zipbom.Auth.jwt.UserAuthority;
 import com.zipbom.zipbom.InterestedRoom.model.InterestedRoom;
 import com.zipbom.zipbom.InterestedRoom.model.UserInterestedRooms;
 import com.zipbom.zipbom.Product.model.Products;
@@ -41,7 +42,7 @@ public class User {
     private String email;
 
     @Enumerated(EnumType.STRING)
-    private Role role;
+    private UserAuthority userAuthority;
 
     private LocalDateTime createDate;
 

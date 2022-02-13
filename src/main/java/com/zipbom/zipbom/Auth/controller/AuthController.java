@@ -1,22 +1,20 @@
 package com.zipbom.zipbom.Auth.controller;
 
-import com.zipbom.zipbom.Auth.dto.AccessTokenDto;
+import com.zipbom.zipbom.Auth.dto.LoginDto;
 import com.zipbom.zipbom.Auth.dto.CheckEmailDuplicateDto;
 import com.zipbom.zipbom.Auth.dto.SignUpRequestDto;
+import com.zipbom.zipbom.Auth.jwt.JwtAuthorityChecker;
+import com.zipbom.zipbom.Auth.jwt.UserAuthority;
 import com.zipbom.zipbom.Auth.service.AuthService;
 import com.zipbom.zipbom.Auth.service.KakaoAPI;
 import com.zipbom.zipbom.Util.dto.CMRespDto;
-import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.HashMap;
 
 @RestController
 public class AuthController {
@@ -26,15 +24,21 @@ public class AuthController {
     @Autowired
     private KakaoAPI kakao;
 
-    @GetMapping("/master")
-    @PreAuthorize("hasRole('ROLE_MASTER')")
-    public String masterJsonReturnTest() {
-        return "Hello Master";
+    @GetMapping("/anonymous-user")
+    @JwtAuthorityChecker(authority = UserAuthority.ROLE_ANONYMOUS_USER)
+    public String checkAnonymousUser() {
+        return "Hello AnonymousUser";
+    }
+
+    @GetMapping("/real-estate-agent")
+    @JwtAuthorityChecker(authority = UserAuthority.ROLE_REAL_ESTATE_AGENT)
+    public String checkRealEstateAgent() {
+        return "Hello RealEstateAgent";
     }
 
     @GetMapping("/user")
-    @PreAuthorize("hasRole('ROLE_USER')")
-    public String userJsonReturnTest() {
+    @JwtAuthorityChecker(authority = UserAuthority.ROLE_USER)
+    public String checkUser() {
         return "Hello user";
     }
 
@@ -49,7 +53,7 @@ public class AuthController {
     }
 
     @PostMapping(value = "/login")
-    public CMRespDto<?> login(@RequestBody AccessTokenDto accessTokenDto) {
-        return authService.login(accessTokenDto);
+    public CMRespDto<?> login(@RequestBody LoginDto loginDto) {
+        return authService.login(loginDto);
     }
 }
