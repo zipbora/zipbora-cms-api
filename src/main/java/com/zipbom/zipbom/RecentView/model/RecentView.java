@@ -6,6 +6,7 @@ import com.zipbom.zipbom.Product.model.Product;
 import javax.persistence.*;
 
 @Entity
+@Table(name = "recent_view")
 public class RecentView {
 
     @Id

@@ -18,6 +18,7 @@ import java.util.UUID;
 @Entity
 @Builder
 @AllArgsConstructor
+@Table(name = "product_image")
 public class ProductImage {
 
     private String fileName;
