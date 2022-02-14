@@ -1,8 +1,12 @@
 package com.zipbom.zipbom.CustomerSupport.model;
 
+import lombok.*;
+
 import javax.persistence.*;
 
 @Entity
+@Getter
+@Setter
 @Table(name = "notice")
 public class Notice {
     @Id
@@ -30,5 +34,8 @@ public class Notice {
 
     public String getImageEncoding() {
         return imageEncoding;
+    }
+
+    public Notice() {
     }
 }

@@ -22,9 +22,10 @@ public class NoticeService {
     @Transactional
     public NoticeResponse createNotice(NoticeRequest noticeRequest) {
         ModelMapper modelMapper = new ModelMapper();
-        modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
         Notice notice = modelMapper.map(noticeRequest, Notice.class);
+
         noticeRepository.save(notice);
+
         return new NoticeResponse(notice);
     }
 

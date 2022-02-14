@@ -7,6 +7,7 @@ import com.zipbom.zipbom.CustomerSupport.service.NoticeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,8 +25,8 @@ public class NoticeController {
 //    }
 
     @PostMapping
-    public ResponseEntity<NoticeResponse> createNotice(NoticeRequest noticeRequest) {
+    public ResponseEntity<NoticeResponse> createNotice(@RequestBody  NoticeRequest noticeRequest) {
         NoticeResponse noticeResponse = noticeService.createNotice(noticeRequest);
-        return ResponseEntity.created(URI.create("/notice")).body(noticeResponse);
+        return ResponseEntity.created(URI.create("/notice/"+noticeResponse.getId())).body(noticeResponse);
     }
 }
