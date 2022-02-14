@@ -1,6 +1,6 @@
-package com.zipbom.zipbom.Auth.acceptance;
+package com.zipbom.zipbom.Util;
 
-import com.zipbom.zipbom.Auth.util.DatabaseCleanup;
+import com.zipbom.zipbom.Util.DatabaseCleanup;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
