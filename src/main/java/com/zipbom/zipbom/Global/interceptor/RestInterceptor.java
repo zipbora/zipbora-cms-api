@@ -19,6 +19,9 @@ public class RestInterceptor implements HandlerInterceptor {
     @Autowired
     private JwtServiceImpl jwtService;
 
+    public RestInterceptor() {
+    }
+
     @Value("${spring.profiles.active}")
     private String activeProfile;
 
