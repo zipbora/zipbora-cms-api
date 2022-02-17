@@ -67,11 +67,12 @@ public class ProductService {
                         .totalNumberOfFloor(letRoomRequestDto.getTotalNumberOfFloor())
                         .productImages(new ProductImages())
                         .build();
-
-        for (MultipartFile multipartFile : letRoomRequestDto.getProductImageList()) {
-            ProductImage productImage = ProductImage.of(multipartFile);
-            product.addProduct(productImage);
-            productImage.fileWrite(multipartFile);
+        if (letRoomRequestDto.getProductImageList() != null) {
+            for (MultipartFile multipartFile : letRoomRequestDto.getProductImageList()) {
+                ProductImage productImage = ProductImage.of(multipartFile);
+                product.addProduct(productImage);
+                productImage.fileWrite(multipartFile);
+            }
         }
         productRepository.save(product);
 
