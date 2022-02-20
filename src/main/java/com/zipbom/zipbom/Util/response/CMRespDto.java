@@ -1,4 +1,4 @@
-package com.zipbom.zipbom.Util.dto;
+package com.zipbom.zipbom.Util.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
