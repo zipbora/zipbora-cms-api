@@ -2,7 +2,7 @@ package com.zipbom.zipbom.InterestedRoom.controller;
 
 import com.zipbom.zipbom.InterestedRoom.dto.AddInterestedRoomRequestDto;
 import com.zipbom.zipbom.InterestedRoom.service.InterestedRoomService;
-import com.zipbom.zipbom.Util.dto.CMRespDto;
+import com.zipbom.zipbom.Util.response.CMRespDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;

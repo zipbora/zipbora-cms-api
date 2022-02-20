@@ -8,7 +8,7 @@ import com.zipbom.zipbom.InterestedRoom.model.InterestedRoom;
 import com.zipbom.zipbom.InterestedRoom.repository.InterestedRoomRepository;
 import com.zipbom.zipbom.Product.model.Product;
 import com.zipbom.zipbom.Product.repository.ProductRepository;
-import com.zipbom.zipbom.Util.dto.CMRespDto;
+import com.zipbom.zipbom.Util.response.CMRespDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

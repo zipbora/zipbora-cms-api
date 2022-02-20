@@ -16,7 +16,7 @@ spring:
       suffix: .jsp
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://localhost:3306/zipbom?serverTimezone=Asia/Seoul
+    url: jdbc:mariadb://localhost:3309/zipbom?serverTimezone=Asia/Seoul
     username: mj
     password: zipbom
   jpa:

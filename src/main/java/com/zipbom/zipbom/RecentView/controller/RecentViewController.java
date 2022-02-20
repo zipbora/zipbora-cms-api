@@ -4,7 +4,7 @@ import com.zipbom.zipbom.Auth.repository.UserRepository;
 import com.zipbom.zipbom.Product.repository.ProductRepository;
 import com.zipbom.zipbom.RecentView.dto.AddRecentViewRequestDto;
 import com.zipbom.zipbom.RecentView.service.RecentViewService;
-import com.zipbom.zipbom.Util.dto.CMRespDto;
+import com.zipbom.zipbom.Util.response.CMRespDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;

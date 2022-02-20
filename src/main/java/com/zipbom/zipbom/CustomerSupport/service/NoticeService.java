@@ -12,20 +12,17 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class NoticeService {
-    @Autowired
-    private NoticeRepository noticeRepository;
+    private final NoticeRepository noticeRepository;
 
-//    private NoticeService(NoticeRepository noticeRepository) {
-//        this.noticeRepository = noticeRepository;
-//    }
+   private NoticeService(NoticeRepository noticeRepository) {
+       this.noticeRepository = noticeRepository;
+   }
 
     @Transactional
     public NoticeResponse createNotice(NoticeRequest noticeRequest) {
         ModelMapper modelMapper = new ModelMapper();
         Notice notice = modelMapper.map(noticeRequest, Notice.class);
-
         noticeRepository.save(notice);
-
         return new NoticeResponse(notice);
     }
 

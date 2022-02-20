@@ -7,7 +7,7 @@ import com.zipbom.zipbom.Auth.model.User;
 import com.zipbom.zipbom.Auth.repository.UserRepository;
 import com.zipbom.zipbom.Global.exception.BusinessException;
 import com.zipbom.zipbom.Global.exception.ErrorCode;
-import com.zipbom.zipbom.Util.dto.CMRespDto;
+import com.zipbom.zipbom.Util.response.CMRespDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

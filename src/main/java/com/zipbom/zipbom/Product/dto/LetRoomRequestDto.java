@@ -53,4 +53,6 @@ public class LetRoomRequestDto {
     private boolean isAgent;
 
     private List<MultipartFile> productImageList;
-}
+
+    private double latitude;
+    private double longitude;}

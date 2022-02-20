@@ -1,6 +1,5 @@
 package com.zipbom.zipbom.Global.exception;
 
-import com.zipbom.zipbom.Util.dto.CMRespDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
