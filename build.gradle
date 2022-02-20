@@ -1,6 +1,7 @@
 plugins {
 	id 'org.springframework.boot' version '2.5.6'
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+	id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
 	id 'java'
 }
 
@@ -11,6 +12,9 @@ sourceCompatibility = '1.8'
 configurations {
 	compileOnly {
 		extendsFrom annotationProcessor
+	}
+	querydsl {
+		extendsFrom compileClasspath
 	}
 }
 
@@ -48,8 +52,27 @@ dependencies {
 
 	implementation group: 'org.apache.tomcat.embed', name: 'tomcat-embed-jasper', version: '9.0.43'
 	implementation group: 'javax.servlet', name: 'jstl'
+
+//querydsl 추가
+	implementation 'com.querydsl:querydsl-jpa'
 }
 
+//querydsl 추가 시작
+def querydslDir = "$buildDir/generated/querydsl"
+querydsl {
+	jpa = true
+	querydslSourcesDir = querydslDir
+}
+sourceSets {
+	main.java.srcDir querydslDir
+}
+configurations {
+	querydsl.extendsFrom compileClasspath
+}
+compileQuerydsl {
+	options.annotationProcessorPath = configurations.querydsl
+}
+//querydsl 추가 끝
 test {
 	useJUnitPlatform()
 }
