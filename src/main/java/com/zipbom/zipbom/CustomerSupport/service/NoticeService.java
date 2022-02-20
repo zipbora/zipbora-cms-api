@@ -12,11 +12,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class NoticeService {
-    private final NoticeRepository noticeRepository;
+    @Autowired
+    private NoticeRepository noticeRepository;
 
-   private NoticeService(NoticeRepository noticeRepository) {
-       this.noticeRepository = noticeRepository;
-   }
+//    private NoticeService(NoticeRepository noticeRepository) {
+//        this.noticeRepository = noticeRepository;
+//    }
 
     @Transactional
     public NoticeResponse createNotice(NoticeRequest noticeRequest) {

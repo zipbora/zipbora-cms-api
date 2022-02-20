@@ -26,6 +26,7 @@ import com.zipbom.zipbom.Product.model.QProduct;
 import com.zipbom.zipbom.Product.repository.ProductImageRepository;
 import com.zipbom.zipbom.Product.repository.ProductRepository;
 import com.zipbom.zipbom.Util.response.CMRespDto;
+import com.zipbom.zipbom.Util.response.SuccessResponseDto;
 
 @Service
 public class ProductService {
@@ -86,7 +87,7 @@ public class ProductService {
 		return new CMRespDto<>(200, "let room success", null);
 	}
 
-	public CMRespDto<?> getProducts(ProductFilterRequest productFilterRequest) {
+	public SuccessResponseDto<?> getProducts(ProductFilterRequest productFilterRequest) {
 
 		JPAQueryFactory jpaQueryFactory = new JPAQueryFactory(em);
 		QProduct p = QProduct.product;
@@ -99,7 +100,7 @@ public class ProductService {
 				, productFilterRequest.getUpperLongitude()))
 			.fetch();
 
-		return new CMRespDto<>(200, "get all products", products.stream()
+		return new SuccessResponseDto<>(true,  products.stream()
 			.map(product -> new ProductResponse(product))
 			.collect(Collectors.toList()));
 	}
