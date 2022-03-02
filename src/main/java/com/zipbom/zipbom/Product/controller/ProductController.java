@@ -42,11 +42,13 @@ public class ProductController {
 	}
 
 	@GetMapping
+	@ApiOperation(value = "집 목록 반환")
 	public SuccessResponseDto<?> getProducts(@ModelAttribute ProductFilterRequest productFilterRequest) {
 		return new SuccessResponseDto<>(true, productService.getProducts(productFilterRequest));
 	}
 
 	@DeleteMapping("/{id}")
+	@ApiOperation(value = "집 삭제")
 	public SuccessResponseDto<?> deleteProduct(@PathVariable("id") Long id) {
 		productRepository.deleteById(id);
 		return new SuccessResponseDto<>(true, null);

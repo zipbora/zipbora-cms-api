@@ -6,9 +6,9 @@ server:
       charset: utf-8
       enabled: true
 file:
-  path: ${FILE_PATH:D:/zipbom_file/}
+  path: ${FILE_PATH:D:/zipbora_file/}
 jwt:
-  secret: ${jwt_secret:zipbom}
+  secret: ${jwt_secret:zipbora}
 spring:
   mvc:
     view:
@@ -16,7 +16,7 @@ spring:
       suffix: .jsp
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://${DB_HOST}}:${DB_PORT}}/zipbora?serverTimezone=Asia/Seoul
+    url: jdbc:mariadb://localhost:3306/zipbora?serverTimezone=Asia/Seoul
     username: zipbora
     password: zipbora
   jpa:
