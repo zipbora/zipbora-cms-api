@@ -50,8 +50,9 @@
 
 ## backend 서버에서 jwt 받는 방법
 
--
+- 
     1. http://localhost:8080/ 에 접속한다.
     2. 카카오 간편 로그인을 클릭 후 로그인 한다.
     3. 콘솔에 찍히는 access token 을 복사한다.
     4. login api 를 사용한다.
+- application.yml의 USER_PROFILE 을 dev로 설정한다.

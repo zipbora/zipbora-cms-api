@@ -9,7 +9,8 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum ErrorCode {
     HANDLE_ACCESS_DENIED(403, "C0001", "Access denied"),
-    LOGIN_AUTHORITY_NULL(400, "C0002", "Authority is null");
+    LOGIN_AUTHORITY_NULL(400, "C0002", "Authority is null"),
+    NOTICE_NOT_FOUND(400, "C0003", "Notice not found");
 
     private final int status;
     private final String code;

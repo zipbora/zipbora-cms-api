@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zipbom.zipbom.Auth.dto.JwtGetUserInfoResponseDto;
 import com.zipbom.zipbom.Auth.jwt.JwtAuthorityChecker;
 import com.zipbom.zipbom.Auth.jwt.JwtServiceImpl;
-import com.zipbom.zipbom.Global.exception.BusinessException;
+import com.zipbom.zipbom.Global.exception.AccessDeniedException;
 import com.zipbom.zipbom.Global.exception.ErrorCode;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,6 +59,6 @@ public class RestInterceptor implements HandlerInterceptor {
             }
         }
 
-        throw new BusinessException(ErrorCode.HANDLE_ACCESS_DENIED);
+        throw new AccessDeniedException(ErrorCode.HANDLE_ACCESS_DENIED);
     }
 }

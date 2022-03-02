@@ -5,7 +5,7 @@ import com.zipbom.zipbom.Auth.jwt.JwtServiceImpl;
 import com.zipbom.zipbom.Auth.jwt.UserAuthority;
 import com.zipbom.zipbom.Auth.model.User;
 import com.zipbom.zipbom.Auth.repository.UserRepository;
-import com.zipbom.zipbom.Global.exception.BusinessException;
+import com.zipbom.zipbom.Global.exception.AccessDeniedException;
 import com.zipbom.zipbom.Global.exception.ErrorCode;
 import com.zipbom.zipbom.Util.response.CMRespDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +46,7 @@ public class AuthService {
 
     private UserAuthority checkAuthority(UserAuthority userAuthority) {
         if (userAuthority == null) {
-            throw new BusinessException(ErrorCode.LOGIN_AUTHORITY_NULL);
+            throw new AccessDeniedException(ErrorCode.LOGIN_AUTHORITY_NULL);
         }
         return userAuthority;
     }
