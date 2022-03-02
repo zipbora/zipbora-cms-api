@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import javax.persistence.EntityNotFoundException;
 
+import io.swagger.annotations.ApiOperation;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,7 +27,7 @@ import com.zipbom.zipbom.CustomerSupport.service.NoticeService;
 import com.zipbom.zipbom.Util.response.SuccessResponseDto;
 
 @RestController
-@RequestMapping("/notice")
+@RequestMapping("/notices")
 public class NoticeController {
 
 	private final NoticeService noticeService;
@@ -40,8 +41,9 @@ public class NoticeController {
 		this.objectMapper = objectMapper;
 	}
 
-	@GetMapping()
-	public SuccessResponseDto<?> getNotice() {
+	@GetMapping
+	@ApiOperation(value = "공지사항 아이디, 제목 리스트 반환")
+	public SuccessResponseDto<?> getNotices() {
 		List<Notice> notices = noticeRepository.findAll();
 		List<NoticeResponse> noticeResponses = notices.stream()
 			.map(notice -> new NoticeResponse(notice))
@@ -50,6 +52,7 @@ public class NoticeController {
 	}
 
 	@GetMapping("/{id}")
+	@ApiOperation(value = "공지사항 자세한 내용 반환")
 	public SuccessResponseDto<?> getNoticeDetails(@PathVariable("id") Long id) {
 		Notice notice = noticeRepository.findById(id).orElseThrow(EntityNotFoundException::new);
 		NoticeDetailsResponse noticeDetailsResponse = NoticeMapper.noticeMapper.noticeToDetailsDto(notice);
@@ -57,12 +60,14 @@ public class NoticeController {
 	}
 
 	@PostMapping
+	@ApiOperation(value = "공지사항 생성")
 	public ResponseEntity<NoticeResponse> createNotice(@RequestBody NoticeRequest noticeRequest) {
 		NoticeResponse noticeResponse = noticeService.createNotice(noticeRequest);
 		return ResponseEntity.created(URI.create("/notice/" + noticeResponse.getId())).body(noticeResponse);
 	}
 
 	@DeleteMapping("/{id}")
+	@ApiOperation(value = "공지사항 제거")
 	public SuccessResponseDto<?> deleteNotice(@PathVariable("id") Long id) {
 		noticeRepository.deleteById(id);
 		return new SuccessResponseDto<>(true, null);
