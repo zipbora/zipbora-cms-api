@@ -40,7 +40,7 @@
 
 ## Error 처리
 
-1. ErrorCode Enum 구현 필드는 status, code, message 정도
+1. ErrorCode Enum 구현 필드는 status, code, message
 
 2. RuntimeException 상속받는 Exception 클래스 구현
 
@@ -55,4 +55,6 @@
     2. 카카오 간편 로그인을 클릭 후 로그인 한다.
     3. 콘솔에 찍히는 access token 을 복사한다.
     4. login api 를 사용한다.
+  
+
 - application.yml의 USER_PROFILE 을 dev로 설정한다.
