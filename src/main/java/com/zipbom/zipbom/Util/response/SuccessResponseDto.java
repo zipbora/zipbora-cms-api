@@ -10,4 +10,12 @@ import lombok.Setter;
 public class SuccessResponseDto<T> {
 	private boolean success;
 	private T data;
+
+	@Override
+	public String toString() {
+		return "SuccessResponseDto{" +
+			"success=" + success +
+			", data=" + data +
+			'}';
+	}
 }
