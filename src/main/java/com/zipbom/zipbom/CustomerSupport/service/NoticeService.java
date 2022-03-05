@@ -27,4 +27,7 @@ public class NoticeService {
         return new NoticeResponse(notice);
     }
 
+    public void deleteNotice(Long id) {
+        noticeRepository.deleteById(id);
+    }
 }

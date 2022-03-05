@@ -69,7 +69,7 @@ public class NoticeController {
 	@DeleteMapping("/{id}")
 	@ApiOperation(value = "공지사항 제거")
 	public SuccessResponseDto<?> deleteNotice(@PathVariable("id") Long id) {
-		noticeRepository.deleteById(id);
+		noticeService.deleteNotice(id);
 		return new SuccessResponseDto<>(true, null);
 	}
 }
