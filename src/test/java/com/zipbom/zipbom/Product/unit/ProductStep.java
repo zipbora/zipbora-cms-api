@@ -1,5 +1,6 @@
 package com.zipbom.zipbom.Product.unit;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.http.MediaType;
@@ -28,5 +29,13 @@ public class ProductStep {
 			.header("jwt-auth-token", jwtToken)
 			.when().get("/products")
 			.then().log().all().extract();
+	}
+	public static HashMap<String, String> createProduct() {
+		HashMap<String, String> userInfo = new HashMap<>();
+		userInfo.put("address", "seoul");
+		userInfo.put("detailAddress", "mokdong");
+		userInfo.put("haveLoan", "true");
+		userInfo.put("productType", "APARTMENT");
+		return userInfo;
 	}
 }

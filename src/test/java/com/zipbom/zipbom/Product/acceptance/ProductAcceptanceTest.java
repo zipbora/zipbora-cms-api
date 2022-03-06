@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zipbom.zipbom.Auth.service.KakaoAPI;
 import com.zipbom.zipbom.Global.interceptor.RestInterceptor;
 import com.zipbom.zipbom.Product.service.ProductService;
@@ -23,7 +22,7 @@ import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 
-public class ProductTest extends AcceptanceTest {
+public class ProductAcceptanceTest extends AcceptanceTest {
 	@MockBean
 	private RestInterceptor restInterceptor;
 	@MockBean
@@ -35,7 +34,7 @@ public class ProductTest extends AcceptanceTest {
 	void createProductTest() throws Exception {
 		String jwtToken = loginTest().jsonPath().getString("data.jwtToken");
 
-		ExtractableResponse<Response> response = 방_내놓기(jwtToken, createUserInfo());
+		ExtractableResponse<Response> response = 방_내놓기(jwtToken, createProduct());
 		assertThat(response.jsonPath().getBoolean("success")).isEqualTo(true);
 	}
 
@@ -44,7 +43,7 @@ public class ProductTest extends AcceptanceTest {
 	void getProductsTest() throws Exception {
 		String jwtToken = loginTest().jsonPath().getString("data.jwtToken");
 
-		방_내놓기(jwtToken, createUserInfo());
+		방_내놓기(jwtToken, createProduct());
 
 		ExtractableResponse<Response> response = 내_방_보기(jwtToken);
 
@@ -64,22 +63,11 @@ public class ProductTest extends AcceptanceTest {
 		input.put("accessToken", "test2");
 		input.put("userAuthority", "ROLE_USER");
 
-		ObjectMapper objectMapper = new ObjectMapper();
-
 		return RestAssured
 			.given().log().all()
 			.contentType(MediaType.APPLICATION_JSON_VALUE)
 			.body(input)
 			.when().post("/login")
 			.then().log().all().extract();
-	}
-
-	private HashMap<String, String> createUserInfo() {
-		HashMap<String, String> userInfo = new HashMap<>();
-		userInfo.put("address", "seoul");
-		userInfo.put("detailAddress", "mokdong");
-		userInfo.put("haveLoan", "true");
-		userInfo.put("productType", "APARTMENT");
-		return userInfo;
 	}
 }
