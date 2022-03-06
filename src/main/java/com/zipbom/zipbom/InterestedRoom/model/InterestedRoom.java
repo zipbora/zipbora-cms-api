@@ -5,7 +5,10 @@ import com.zipbom.zipbom.Product.model.Product;
 
 import javax.persistence.*;
 
+import lombok.Getter;
+
 @Entity
+@Getter
 @Table(name = "interested_room")
 public class InterestedRoom {
     @Id
