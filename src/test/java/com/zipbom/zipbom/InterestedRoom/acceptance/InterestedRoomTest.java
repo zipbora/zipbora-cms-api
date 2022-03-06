@@ -1,9 +1,10 @@
 package com.zipbom.zipbom.InterestedRoom.acceptance;
 
-import static com.zipbom.zipbom.Auth.acceptance.AuthAcceptanceMockTest.*;
+import static com.zipbom.zipbom.InterestedRoom.unit.InterestedRoomStep.*;
 import static com.zipbom.zipbom.Product.unit.ProductStep.*;
-import static org.assertj.core.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.anyString;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.*;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
 import java.util.HashMap;
@@ -15,12 +16,13 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 
 import com.zipbom.zipbom.Auth.service.KakaoAPI;
-import com.zipbom.zipbom.Product.dto.ProductResponse;
+import com.zipbom.zipbom.InterestedRoom.dto.InterestedRoomResponseDto;
 import com.zipbom.zipbom.Product.model.Product;
 import com.zipbom.zipbom.Util.AcceptanceTest;
 
 import io.restassured.RestAssured;
-
+import io.restassured.response.ExtractableResponse;
+import io.restassured.response.Response;
 
 public class InterestedRoomTest extends AcceptanceTest {
 	@MockBean
@@ -33,21 +35,34 @@ public class InterestedRoomTest extends AcceptanceTest {
 	void addInterestedRoomTest() {
 		String jwtToken = JWT_반환("ROLE_USER");
 
-		방_내놓기(jwtToken,createProduct());
+		방_내놓기(jwtToken, createProduct());
 		List<Product> products = 내_방_보기(jwtToken);
 
 		HashMap<String, String> params = new HashMap<>();
 		params.put("productId", products.get(0).getId().toString());
 
-		int statusCode = RestAssured
-			.given().log().all()
-			.header("jwt-auth-token", jwtToken)
-			.contentType(MediaType.APPLICATION_JSON_VALUE)
-			.body(params)
-			.when().post("/interestedRooms")
-			.then().log().all().extract().statusCode();
+		ExtractableResponse<Response> response = 관심있는_방_추가(jwtToken, params);
 
-		assertThat(statusCode).isEqualTo(200);
+		assertThat(response.statusCode()).isEqualTo(200);
+	}
+
+	@Test
+	/***
+	 *
+	 */
+	void getInterestedRooms() {
+		String jwtToken = JWT_반환("ROLE_USER");
+
+		방_내놓기(jwtToken, createProduct());
+		List<Product> products = 내_방_보기(jwtToken);
+
+		HashMap<String, String> params = new HashMap<>();
+		params.put("productId", products.get(0).getId().toString());
+
+		관심있는_방_추가(jwtToken, params);
+		List<InterestedRoomResponseDto> interestedRoomResponseDtos = 내_관심있는_방들_보기(jwtToken);
+
+		assertNotNull(interestedRoomResponseDtos.get(0).getId());
 	}
 
 	public String JWT_반환(String role) {
