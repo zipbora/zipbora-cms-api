@@ -11,17 +11,13 @@ import io.restassured.response.Response;
 
 public class AuthStep {
 
-	public static ExtractableResponse<Response> 회원_생성_요청(String email, String password, Integer age) {
-		Map<String, String> params = new HashMap<>();
-		params.put("email", email);
-		params.put("password", password);
-		params.put("age", age + "");
-
+	public static ExtractableResponse<Response> 회원가입(String jwtToken,HashMap<String,String> params) {
 		return RestAssured
 			.given().log().all()
+			.header("jwt-auth-token", jwtToken)
 			.contentType(MediaType.APPLICATION_JSON_VALUE)
 			.body(params)
-			.when().post("/members")
+			.when().post("/signUp")
 			.then().log().all().extract();
 	}
 }

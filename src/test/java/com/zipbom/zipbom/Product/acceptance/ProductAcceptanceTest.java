@@ -1,6 +1,7 @@
 package com.zipbom.zipbom.Product.acceptance;
 
 import static com.zipbom.zipbom.Auth.acceptance.AuthAcceptanceMockTest.*;
+import static com.zipbom.zipbom.Auth.acceptance.AuthStep.*;
 import static com.zipbom.zipbom.Product.unit.ProductStep.*;
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.Assert.*;
@@ -17,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 
+import com.zipbom.zipbom.Auth.jwt.JwtServiceImpl;
 import com.zipbom.zipbom.Auth.service.KakaoAPI;
 import com.zipbom.zipbom.Product.model.Product;
 import com.zipbom.zipbom.Product.service.ProductService;
@@ -31,12 +33,14 @@ public class ProductAcceptanceTest extends AcceptanceTest {
 	private KakaoAPI kakaoAPI;
 	@Autowired
 	ProductService productService;
-
+	@Autowired
+	JwtServiceImpl jwtService;
 	@Test
 	void createProductTest() {
 		String jwtToken = JWT_반환();
+		String updatedJwtToken = 회원가입_후_JWT_반환(jwtToken);
 
-		ExtractableResponse<Response> response = 방_내놓기(jwtToken, createProduct());
+		ExtractableResponse<Response> response = 방_내놓기(updatedJwtToken, createProduct());
 		assertThat(response.jsonPath().getBoolean("success")).isEqualTo(true);
 	}
 
@@ -44,10 +48,11 @@ public class ProductAcceptanceTest extends AcceptanceTest {
 	@Test
 	void getProductsTest() {
 		String jwtToken = JWT_반환();
+		String updatedJwtToken = 회원가입_후_JWT_반환(jwtToken);
 
-		방_내놓기(jwtToken, createProduct());
+		방_내놓기(updatedJwtToken, createProduct());
 
-		List<Product> products = 내_방_보기(jwtToken);
+		List<Product> products = 내_방_보기(updatedJwtToken);
 
 		assertNotNull(products.get(0));
 	}
@@ -70,5 +75,13 @@ public class ProductAcceptanceTest extends AcceptanceTest {
 			.body(input)
 			.when().post("/login")
 			.then().log().all().extract().jsonPath().getString("data.jwtToken");
+	}
+
+	private String 회원가입_후_JWT_반환(String jwtToken) {
+		HashMap<String, String> params = new HashMap<>();
+		params.put("email", "test");
+		params.put("nickname", "test");
+		params.put("id", jwtService.getUserId(jwtToken));
+		return 회원가입(jwtToken, params).jsonPath().getString("data.jwtToken");
 	}
 }

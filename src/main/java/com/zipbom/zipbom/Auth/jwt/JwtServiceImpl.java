@@ -19,6 +19,9 @@ public class JwtServiceImpl {
 
     public String createToken(JwtGetUserInfoResponseDto jwtGetUserInfoResponseDto) {
         long tokenExpireTime = 1000L * 60 * 60;
+        System.out.println("----------------");
+        System.out.println(jwtGetUserInfoResponseDto.getRole());
+        System.out.println("----------------");
         return Jwts.builder()
                 .setHeaderParam("typ", "JWT")
                 .setSubject("userToken")

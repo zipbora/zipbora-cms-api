@@ -8,5 +8,4 @@ import lombok.Setter;
 @Setter
 public class LoginDto {
     private String accessToken;
-    private UserAuthority userAuthority;
 }
