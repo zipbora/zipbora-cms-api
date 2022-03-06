@@ -8,6 +8,8 @@ import lombok.Getter;
 @Getter
 public class ProductResponse {
     private Long id;
+    private String address;
+    private String detailAddress;
     private ProductType productType;
     private int numberOfRooms;
     private int maintenanceFees;
@@ -16,8 +18,12 @@ public class ProductResponse {
     private long price;
     private double latitude;
     private double longitude;
+    private boolean haveLoan;
 
     public ProductResponse(Product product) {
+        this.haveLoan = product.isHaveLoan();
+        this.address = product.getAddress();
+        this.detailAddress = product.getDetailAddress();
         this.id = product.getId();
         this.productType = product.getProductType();
         this.numberOfRooms = product.getNumberOfRooms();

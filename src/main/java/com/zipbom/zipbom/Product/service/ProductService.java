@@ -87,7 +87,7 @@ public class ProductService {
 		return new CMRespDto<>(200, "let room success", null);
 	}
 
-	public SuccessResponseDto<?> getProducts(ProductFilterRequest productFilterRequest) {
+	public SuccessResponseDto<?> getProductsByFilter(ProductFilterRequest productFilterRequest) {
 
 		JPAQueryFactory jpaQueryFactory = new JPAQueryFactory(em);
 		QProduct p = QProduct.product;
@@ -100,7 +100,19 @@ public class ProductService {
 				, productFilterRequest.getUpperLongitude()))
 			.fetch();
 
-		return new SuccessResponseDto<>(true,  products.stream()
+		return new SuccessResponseDto<>(true, products.stream()
+			.map(product -> new ProductResponse(product))
+			.collect(Collectors.toList()));
+	}
+
+	public SuccessResponseDto<?> getProducts(HttpServletRequest httpServletRequest) {
+
+		User user = userRepository.findByUserId(jwtService.getUserId(httpServletRequest.getHeader("jwt-auth-token")))
+			.orElseThrow(IllegalArgumentException::new);
+
+		List<Product> products = productRepository.findAllByUser(user);
+
+		return new SuccessResponseDto<>(true, products.stream()
 			.map(product -> new ProductResponse(product))
 			.collect(Collectors.toList()));
 	}

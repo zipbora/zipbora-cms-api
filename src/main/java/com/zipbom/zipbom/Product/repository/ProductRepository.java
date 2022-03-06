@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import com.zipbom.zipbom.Auth.model.User;
 import com.zipbom.zipbom.Product.model.Product;
 
 public interface ProductRepository extends JpaRepository<Product, Long> {
@@ -19,4 +20,5 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 		@Param("upperLongitude") double upperLongitude, @Param("lowerLatitude") double lowerLatitude
 		, @Param("lowerLongitude") double lowerLongitude);
 
+	List<Product> findAllByUser(User user);
 }

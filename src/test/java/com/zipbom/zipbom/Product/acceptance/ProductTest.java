@@ -9,42 +9,45 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.util.MimeTypeUtils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zipbom.zipbom.Auth.service.KakaoAPI;
 import com.zipbom.zipbom.Global.interceptor.RestInterceptor;
-import com.zipbom.zipbom.Product.dto.LetRoomRequestDto;
-import com.zipbom.zipbom.Product.model.ProductType;
-import com.zipbom.zipbom.Product.model.TradeType;
+import com.zipbom.zipbom.Product.service.ProductService;
 import com.zipbom.zipbom.Util.AcceptanceTest;
 
 import io.restassured.RestAssured;
-import io.restassured.builder.MultiPartSpecBuilder;
-import io.restassured.internal.multipart.MultiPartSpecificationImpl;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
-import io.restassured.specification.MultiPartSpecification;
 
 public class ProductTest extends AcceptanceTest {
 	@MockBean
 	private RestInterceptor restInterceptor;
 	@MockBean
 	private KakaoAPI kakaoAPI;
+	@Autowired
+	ProductService productService;
 
 	@Test
 	void createProductTest() throws Exception {
 		String jwtToken = loginTest().jsonPath().getString("data.jwtToken");
 
-		HashMap<String, String> userInfo = new HashMap<>();
-		userInfo.put("address", "서울 특별시");
-		userInfo.put("detailAddress", "목동남로2길 60-7");
-		userInfo.put("haveLoan", "true");
-		userInfo.put("productType", "APARTMENT");
+		ExtractableResponse<Response> response = 방_내놓기(jwtToken, createUserInfo());
+		assertThat(response.jsonPath().getBoolean("success")).isEqualTo(true);
+	}
 
-		ExtractableResponse<Response> response = 방_내놓기(jwtToken,userInfo);
+	//TODO 한글이 깨진다
+	@Test
+	void getProductsTest() throws Exception {
+		String jwtToken = loginTest().jsonPath().getString("data.jwtToken");
+
+		방_내놓기(jwtToken, createUserInfo());
+
+		ExtractableResponse<Response> response = 내_방_보기(jwtToken);
+
 		assertThat(response.jsonPath().getBoolean("success")).isEqualTo(true);
 	}
 
@@ -69,5 +72,14 @@ public class ProductTest extends AcceptanceTest {
 			.body(input)
 			.when().post("/login")
 			.then().log().all().extract();
+	}
+
+	private HashMap<String, String> createUserInfo() {
+		HashMap<String, String> userInfo = new HashMap<>();
+		userInfo.put("address", "seoul");
+		userInfo.put("detailAddress", "mokdong");
+		userInfo.put("haveLoan", "true");
+		userInfo.put("productType", "APARTMENT");
+		return userInfo;
 	}
 }
