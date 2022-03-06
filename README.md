@@ -60,5 +60,7 @@
 - application.yml의 USER_PROFILE 을 dev로 설정한다.
 
 ## docker
-1.docker build --platform amd64 -t minjoonlee/zipbora:version .
-2.docker push minjoonlee/zipbora:version
+1. docker build --platform amd64 -t minjoonlee/zipbora:version .
+2. docker push minjoonlee/zipbora:version
+3. zipbora.net에 접속해서 sudo docker pull minjoonlee/zipbora:version
+4. sudo docker run -p 8081:8081 -d minjoonlee/zipbora:version
