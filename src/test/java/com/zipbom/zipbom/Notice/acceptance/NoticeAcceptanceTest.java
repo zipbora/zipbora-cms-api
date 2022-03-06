@@ -28,8 +28,6 @@ public class NoticeAcceptanceTest extends AcceptanceTest {
 	@MockBean
 	private KakaoAPI kakaoAPI;
 
-
-
 	@Test
 	@DisplayName("공지사항을 만든다")
 	void createNotice() throws Exception {

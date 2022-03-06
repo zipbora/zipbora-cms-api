@@ -3,7 +3,6 @@ package com.zipbom.zipbom.Auth.acceptance;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 
 import io.restassured.RestAssured;

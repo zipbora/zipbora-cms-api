@@ -49,9 +49,9 @@ public class ProductController {
 	}
 
 	@GetMapping
-	@ApiOperation(value = "내가 내놓은 집 목록 반환")
+	@ApiOperation(value = "내 집 목록 반환")
 	public SuccessResponseDto<?> getProducts(HttpServletRequest httpServletRequest) {
-		return new SuccessResponseDto<>(true, productService.getProducts(httpServletRequest));
+		return productService.getProducts(httpServletRequest);
 	}
 
 	@DeleteMapping("/{id}")

@@ -8,5 +8,5 @@ import java.lang.annotation.Target;
 @Target({ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface JwtAuthorityChecker {
-    UserAuthority authority() default UserAuthority.ROLE_ANONYMOUS_USER;
+    UserAuthority authority() default UserAuthority.ROLE_USER;
 }

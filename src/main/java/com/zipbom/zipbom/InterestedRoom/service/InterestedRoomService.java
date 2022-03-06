@@ -1,5 +1,7 @@
 package com.zipbom.zipbom.InterestedRoom.service;
 
+import java.util.List;
+
 import javax.persistence.EntityNotFoundException;
 import javax.servlet.http.HttpServletRequest;
 
@@ -32,8 +34,8 @@ public class InterestedRoomService {
 
 	public CMRespDto<?> addInterestedRoom(HttpServletRequest httpServletRequest,
 		InterestedRoomRequestDto interestedRoomRequestDto) {
-		User user = userRepository.findByUserId(
-				(String)jwtService.getInfo(httpServletRequest.getHeader("jwt-auth-token")).get("userId"))
+
+		User user = userRepository.findByUserId(jwtService.getUserId(httpServletRequest.getHeader("jwt-auth-token")))
 			.orElseThrow(IllegalArgumentException::new);
 
 		Product product = productRepository.findByProductId(interestedRoomRequestDto.getProductId())
@@ -45,12 +47,18 @@ public class InterestedRoomService {
 
 	public SuccessResponseDto<?> deleteInterestedRoom(HttpServletRequest httpServletRequest,
 		InterestedRoomRequestDto interestedRoomRequestDto) {
-		User user = userRepository.findByUserId(
-				(String)jwtService.getInfo(httpServletRequest.getHeader("jwt-auth-token")).get("userId"))
+		User user = userRepository.findByUserId(jwtService.getUserId(httpServletRequest.getHeader("jwt-auth-token")))
 			.orElseThrow(IllegalArgumentException::new);
 
 		user.getUserInterestedRooms().deleteInterestedRooms(interestedRoomRequestDto.getProductId(), user);
 		interestedRoomRepository.deleteById(interestedRoomRequestDto.getProductId());
 		return new SuccessResponseDto(true, null);
+	}
+
+	public SuccessResponseDto<?> getInterestedRooms(HttpServletRequest httpServletRequest) {
+		User user = userRepository.findByUserId(jwtService.getUserId(httpServletRequest.getHeader("jwt-auth-token")))
+			.orElseThrow(IllegalArgumentException::new);
+		List<InterestedRoom> interestedRooms = interestedRoomRepository.findAllByUser(user);
+		return new SuccessResponseDto(true, interestedRooms);
 	}
 }
