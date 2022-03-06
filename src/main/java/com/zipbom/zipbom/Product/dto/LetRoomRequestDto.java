@@ -1,58 +1,62 @@
 package com.zipbom.zipbom.Product.dto;
 
-import com.zipbom.zipbom.Product.model.ProductType;
-import com.zipbom.zipbom.Product.model.TradeType;
-import lombok.Data;
-import org.springframework.web.multipart.MultipartFile;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
+import com.zipbom.zipbom.Product.model.ProductType;
+import com.zipbom.zipbom.Product.model.TradeType;
+
+import lombok.Builder;
+import lombok.Data;
+
 @Data
 public class LetRoomRequestDto {
 
-    private ProductType productType;
+	private ProductType productType;
 
-    private String address;
+	private String address;
 
-    private String detailAddress;
+	private String detailAddress;
 
-    private float size;
+	private float size;
 
-    private TradeType tradeType;
+	private TradeType tradeType;
 
-    private int maintenanceFees;
+	private int maintenanceFees;
 
-    private boolean haveLoan;
+	private boolean haveLoan;
 
-    private LocalDate moveInDate;
+	private LocalDate moveInDate;
 
-    private int numberOfBathrooms;
+	private int numberOfBathrooms;
 
-    private int numberOfRooms;
+	private int numberOfRooms;
 
-    private int totalNumberOfFloor;
+	private int totalNumberOfFloor;
 
-    private int livingFloor;
+	private int livingFloor;
 
-    private boolean isLiving;
+	private boolean isLiving;
 
-    private boolean canPet;
+	private boolean canPet;
 
-    private LocalDate constructionYear;
+	private LocalDate constructionYear;
 
-    private boolean haveElevator;
+	private boolean haveElevator;
 
-    private boolean haveParkingLot;
+	private boolean haveParkingLot;
 
-    private String detailExplanation;
+	private String detailExplanation;
 
-    private LocalDateTime availableTime;
+	private LocalDateTime availableTime;
 
-    private boolean isAgent;
+	private boolean isAgent;
 
-    private List<MultipartFile> productImageList;
+	private List<MultipartFile> productImageList;
 
-    private double latitude;
-    private double longitude;}
+	private double latitude;
+	private double longitude;
+}

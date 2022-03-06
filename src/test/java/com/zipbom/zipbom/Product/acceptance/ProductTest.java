@@ -1,5 +1,6 @@
-package com.zipbom.zipbom.Notice.acceptance;
+package com.zipbom.zipbom.Product.acceptance;
 
+import static com.zipbom.zipbom.Product.unit.ProductStep.*;
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
@@ -7,62 +8,44 @@ import static org.mockito.Mockito.*;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.util.MimeTypeUtils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zipbom.zipbom.Auth.service.KakaoAPI;
-import com.zipbom.zipbom.CustomerSupport.dto.NoticeResponse;
 import com.zipbom.zipbom.Global.interceptor.RestInterceptor;
+import com.zipbom.zipbom.Product.dto.LetRoomRequestDto;
+import com.zipbom.zipbom.Product.model.ProductType;
+import com.zipbom.zipbom.Product.model.TradeType;
 import com.zipbom.zipbom.Util.AcceptanceTest;
 
 import io.restassured.RestAssured;
+import io.restassured.builder.MultiPartSpecBuilder;
+import io.restassured.internal.multipart.MultiPartSpecificationImpl;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
+import io.restassured.specification.MultiPartSpecification;
 
-public class NoticeAcceptanceTest extends AcceptanceTest {
+public class ProductTest extends AcceptanceTest {
 	@MockBean
 	private RestInterceptor restInterceptor;
 	@MockBean
 	private KakaoAPI kakaoAPI;
 
-
-
 	@Test
-	@DisplayName("공지사항을 만든다")
-	void createNotice() throws Exception {
+	void createProductTest() throws Exception {
 		String jwtToken = loginTest().jsonPath().getString("data.jwtToken");
-		System.out.println(jwtToken);
 
-		ExtractableResponse<Response> response = 공지사항_생성_요청("제목입니당", "내용입니당");
-		assertThat(response.jsonPath().getObject("data", NoticeResponse.class).getTitle()).isEqualTo("제목입니당");
-	}
+		HashMap<String, String> userInfo = new HashMap<>();
+		userInfo.put("address", "서울 특별시");
+		userInfo.put("detailAddress", "목동남로2길 60-7");
+		userInfo.put("haveLoan", "true");
+		userInfo.put("productType", "APARTMENT");
 
-	private ExtractableResponse<Response> 공지사항_생성_요청(String title, String content) {
-
-		Map<String, String> params = new HashMap<>();
-		params.put("title", title);
-		params.put("content", content);
-		return RestAssured
-			.given().log().all()
-			.body(params)
-			.contentType(MediaType.APPLICATION_JSON_VALUE)
-			.when().post("/notices")
-			.then().log().all().extract();
-	}
-
-	private ExtractableResponse<Response> 공지사항_삭제_요청(String title, String content) {
-		Map<String, String> params = new HashMap<>();
-		params.put("title", title);
-		params.put("content", content);
-		return RestAssured
-			.given().log().all()
-			.body(params)
-			.contentType(MediaType.APPLICATION_JSON_VALUE)
-			.when().delete("/notices")
-			.then().log().all().extract();
+		ExtractableResponse<Response> response = 방_내놓기(jwtToken,userInfo);
+		assertThat(response.jsonPath().getBoolean("success")).isEqualTo(true);
 	}
 
 	private ExtractableResponse<Response> loginTest() throws Exception {

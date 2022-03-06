@@ -8,6 +8,8 @@ import com.zipbom.zipbom.Auth.repository.UserRepository;
 import com.zipbom.zipbom.Global.exception.AccessDeniedException;
 import com.zipbom.zipbom.Global.exception.ErrorCode;
 import com.zipbom.zipbom.Util.response.CMRespDto;
+import com.zipbom.zipbom.Util.response.SuccessResponseDto;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,7 +27,7 @@ public class AuthService {
     @Autowired
     private JwtServiceImpl jwtService;
 
-    public CMRespDto<?> login(LoginDto loginDto) {
+    public SuccessResponseDto<?> login(LoginDto loginDto) {
         UserAuthority userAuthority =  checkAuthority(loginDto.getUserAuthority());
         String providerId = (String) kakao.getUserInfo(loginDto.getAccessToken()).get("providerId");
 
@@ -41,7 +43,7 @@ public class AuthService {
         LoginResponseDto loginResponseDTO = LoginResponseDto.builder()
                 .jwtToken(jwtToken)
                 .build();
-        return new CMRespDto<>(200, "jwt 반환", loginResponseDTO);
+        return new SuccessResponseDto<>(true, loginResponseDTO);
     }
 
     private UserAuthority checkAuthority(UserAuthority userAuthority) {

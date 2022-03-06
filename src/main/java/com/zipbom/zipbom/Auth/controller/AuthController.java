@@ -8,6 +8,8 @@ import com.zipbom.zipbom.Auth.jwt.UserAuthority;
 import com.zipbom.zipbom.Auth.service.AuthService;
 import com.zipbom.zipbom.Auth.service.KakaoAPI;
 import com.zipbom.zipbom.Util.response.CMRespDto;
+import com.zipbom.zipbom.Util.response.SuccessResponseDto;
+
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,7 +43,7 @@ public class AuthController {
 
     @PostMapping(value = "/login")
     @ApiOperation(value = "로그인")
-    public CMRespDto<?> login(@RequestBody LoginDto loginDto) {
+    public SuccessResponseDto<?> login(@RequestBody LoginDto loginDto) {
         return authService.login(loginDto);
     }
 }

@@ -2,39 +2,32 @@ package com.zipbom.zipbom.Auth.acceptance;
 
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import com.zipbom.zipbom.Auth.service.KakaoAPI;
 import com.zipbom.zipbom.Global.interceptor.RestInterceptor;
+import com.zipbom.zipbom.Util.AcceptanceTest;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest
+import io.restassured.RestAssured;
+import io.restassured.response.ExtractableResponse;
+import io.restassured.response.Response;
+
 @AutoConfigureMockMvc
-public class LoginMockTest {
+public class AuthMockTest extends AcceptanceTest {
 
 	@MockBean
 	private RestInterceptor restInterceptor;
 	@MockBean
 	private KakaoAPI kakaoAPI;
-	@Autowired
-	private MockMvc mockMvc;
 
 	@Test
 	void loginTest() throws Exception {
@@ -52,12 +45,12 @@ public class LoginMockTest {
 
 		ObjectMapper objectMapper = new ObjectMapper();
 
-		mockMvc.perform(MockMvcRequestBuilders.post("/login")
-				.contentType(MediaType.APPLICATION_JSON)
-				.content(objectMapper.writeValueAsString(input)))
-			.andDo(print())
-			.andExpect(status().isOk())
-			.andExpect(jsonPath("$.message").value("jwt 반환"));
+		ExtractableResponse<Response> response =  RestAssured
+			.given().log().all()
+			.contentType(MediaType.APPLICATION_JSON_VALUE)
+			.body(input)
+			.when().post("/login")
+			.then().log().all().extract();
 	}
 }
 

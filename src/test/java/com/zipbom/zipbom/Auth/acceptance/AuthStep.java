@@ -10,12 +10,7 @@ import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 
-public class AuthAcceptanceTest {
-
-	@Test
-	void loginTest() {
-
-	}
+public class AuthStep {
 
 	public static ExtractableResponse<Response> 회원_생성_요청(String email, String password, Integer age) {
 		Map<String, String> params = new HashMap<>();
