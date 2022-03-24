@@ -41,6 +41,8 @@ public class User {
 
     private String email;
 
+    private String imageEncoding;
+
     @Enumerated(EnumType.STRING)
     private UserAuthority userAuthority;
 

@@ -43,7 +43,7 @@ public class ProductService {
 	EntityManager em;
 
 	@Transactional
-	public CMRespDto<?> letRoom(HttpServletRequest httpServletRequest, LetRoomRequestDto letRoomRequestDto)
+	public SuccessResponseDto<?> letRoom(HttpServletRequest httpServletRequest, LetRoomRequestDto letRoomRequestDto)
 		throws IOException {
 
 		User user = userRepository.findByUserId(jwtService.getUserId(httpServletRequest.getHeader("jwt-auth-token")))
@@ -69,6 +69,7 @@ public class ProductService {
 				.numberOfRooms(letRoomRequestDto.getNumberOfRooms())
 				.size(letRoomRequestDto.getSize())
 				.user(user)
+				.price(letRoomRequestDto.getPrice())
 				.tradeType(letRoomRequestDto.getTradeType())
 				.totalNumberOfFloor(letRoomRequestDto.getTotalNumberOfFloor())
 				.productImages(new ProductImages())
@@ -84,20 +85,22 @@ public class ProductService {
 		}
 		productRepository.save(product);
 
-		return new CMRespDto<>(200, "let room success", null);
+		return new SuccessResponseDto(true, "let room success");
 	}
 
 	public SuccessResponseDto<?> getProductsByFilter(ProductFilterRequest productFilterRequest) {
 
 		JPAQueryFactory jpaQueryFactory = new JPAQueryFactory(em);
 		QProduct p = QProduct.product;
-
 		List<Product> products = jpaQueryFactory
 			.selectFrom(p)
 			.where(p.latitude.between(productFilterRequest.getLowerLatitude()
 				, productFilterRequest.getUpperLatitude()))
 			.where(p.latitude.between(productFilterRequest.getLowerLongitude()
 				, productFilterRequest.getUpperLongitude()))
+			.where(p.price.between(productFilterRequest.getLowerPrice()
+				, productFilterRequest.getUpperPrice()))
+			.where(p.tradeType.eq(productFilterRequest.getTradeType()))
 			.fetch();
 
 		return new SuccessResponseDto<>(true, products.stream()

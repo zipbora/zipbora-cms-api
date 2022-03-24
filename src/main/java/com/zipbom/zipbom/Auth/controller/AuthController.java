@@ -41,7 +41,7 @@ public class AuthController {
 	@JwtAuthorityChecker(authority = UserAuthority.ROLE_ANONYMOUS_USER)
 	public SuccessResponseDto<?> signUp(HttpServletRequest httpServletRequest,
 		@RequestBody SignUpRequestDto signUpRequestDto) throws DuplicateMemberException {
-		return authService.signUp(signUpRequestDto);
+		return authService.signUp(httpServletRequest, signUpRequestDto);
 	}
 
 	@PostMapping(value = "/login")

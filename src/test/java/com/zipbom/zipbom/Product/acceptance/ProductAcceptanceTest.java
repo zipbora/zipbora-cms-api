@@ -57,6 +57,24 @@ public class ProductAcceptanceTest extends AcceptanceTest {
 		assertNotNull(products.get(0));
 	}
 
+	@Test
+	void filterProductsTest() {
+		String jwtToken = JWT_반환();
+		String updatedJwtToken = 회원가입_후_JWT_반환(jwtToken);
+		방_내놓기(updatedJwtToken, createProduct());
+		HashMap<String, String> filterProduct = new HashMap<>();
+		filterProduct.put("upperLatitude", "100");
+		filterProduct.put("upperLongitude", "100");
+		filterProduct.put("lowerLatitude", "0");
+		filterProduct.put("lowerLongitude", "0");
+		filterProduct.put("productType", "APARTMENT");
+		filterProduct.put("upperPrice", "1000000000");
+		filterProduct.put("lowerPrice", "200000000");
+		filterProduct.put("tradeType", "lease");
+		List<Product> products = 방_필터(filterProduct);
+		assertNotNull(products.get(0));
+	}
+
 	private String JWT_반환() {
 		HashMap<String, Object> userInfo = new HashMap<>();
 		userInfo.put("providerId", "111");
@@ -81,7 +99,6 @@ public class ProductAcceptanceTest extends AcceptanceTest {
 		HashMap<String, String> params = new HashMap<>();
 		params.put("email", "test");
 		params.put("nickname", "test");
-		params.put("id", jwtService.getUserId(jwtToken));
 		return 회원가입(jwtToken, params).jsonPath().getString("data.jwtToken");
 	}
 }

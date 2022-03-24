@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.http.MediaType;
 
+import com.zipbom.zipbom.Product.dto.ProductFilterRequest;
 import com.zipbom.zipbom.Product.model.Product;
 
 import io.restassured.RestAssured;
@@ -22,6 +23,9 @@ public class ProductStep {
 			.multiPart("detailAddress", createProduct.get("detailAddress"))
 			.multiPart("haveLoan", createProduct.get("haveLoan"))
 			.multiPart("productType", createProduct.get("productType"))
+			.multiPart("tradeType", createProduct.get("tradeType"))
+			.multiPart("price", createProduct.get("price"))
+
 			.when().post("/products")
 			.then().log().all().extract();
 	}
@@ -34,12 +38,32 @@ public class ProductStep {
 			.then().log().all().extract().body().jsonPath().getList("data", Product.class);
 	}
 
+	public static List<Product> 방_필터(HashMap<String,String> params) {
+		return RestAssured
+			.given().log().all()
+			.queryParam("upperLatitude", params.get("upperLatitude"))
+			.queryParam("upperLongitude", params.get("upperLongitude"))
+			.queryParam("lowerLatitude", params.get("lowerLatitude"))
+			.queryParam("lowerLongitude", params.get("lowerLongitude"))
+			.queryParam("productType", params.get("productType"))
+			.queryParam("upperPrice", params.get("upperPrice"))
+			.queryParam("lowerPrice", params.get("lowerPrice"))
+			.queryParam("tradeType", params.get("tradeType"))
+			.when().get("/products/filter")
+			.then().log().all().extract().body().jsonPath().getList("data", Product.class);
+	}
+
 	public static HashMap<String, String> createProduct() {
 		HashMap<String, String> userInfo = new HashMap<>();
 		userInfo.put("address", "seoul");
 		userInfo.put("detailAddress", "mokdong");
 		userInfo.put("haveLoan", "true");
 		userInfo.put("productType", "APARTMENT");
+		userInfo.put("latitude", "50");
+		userInfo.put("longitude", "50");
+		userInfo.put("productType", "APARTMENT");
+		userInfo.put("price", "1000000000");
+		userInfo.put("tradeType", "lease");
 		return userInfo;
 	}
 }

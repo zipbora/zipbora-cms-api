@@ -43,9 +43,9 @@ public class ProductController {
 	}
 
 	@GetMapping("/filter")
-	@ApiOperation(value = "지도에 해당하는 집 목록 반환")
+	@ApiOperation(value = "필터에 해당하는 집 목록 반환")
 	public SuccessResponseDto<?> getProductsByFilter(@ModelAttribute ProductFilterRequest productFilterRequest) {
-		return new SuccessResponseDto<>(true, productService.getProductsByFilter(productFilterRequest));
+		return productService.getProductsByFilter(productFilterRequest);
 	}
 
 	@GetMapping

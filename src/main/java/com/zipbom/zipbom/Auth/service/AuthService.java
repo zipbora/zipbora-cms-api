@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.UUID;
 
 import javax.persistence.EntityExistsException;
+import javax.servlet.http.HttpServletRequest;
 
 import javassist.bytecode.DuplicateMemberException;
 
@@ -57,17 +58,18 @@ public class AuthService {
     }
 
     @Transactional
-    public SuccessResponseDto<?> signUp(SignUpRequestDto signUpRequestDto) throws DuplicateMemberException {
+    public SuccessResponseDto<?> signUp(HttpServletRequest httpServletRequest, SignUpRequestDto signUpRequestDto) throws DuplicateMemberException {
         String email = signUpRequestDto.getEmail();
-        String id = signUpRequestDto.getId();
         if (userRepository.existsByEmail(email)) {
             throw new DuplicateMemberException("중복 회원이 존재합니다");
         }
-        User user = userRepository.findByUserId(id).orElseThrow(EntityExistsException::new);
+        User user = userRepository.findByUserId(jwtService.getUserId(httpServletRequest.getHeader("jwt-auth-token")))
+            .orElseThrow(IllegalArgumentException::new);
 
         user.setEmail(email);
         user.setNickname(signUpRequestDto.getNickname());
         user.setUserAuthority(UserAuthority.ROLE_USER);
+        user.setImageEncoding(signUpRequestDto.getImageEncoding());
 
         String jwtToken = jwtService.createToken(new JwtGetUserInfoResponseDto(user));
 

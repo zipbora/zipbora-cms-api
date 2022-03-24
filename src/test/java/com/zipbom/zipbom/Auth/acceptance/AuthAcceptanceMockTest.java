@@ -65,7 +65,6 @@ public class AuthAcceptanceMockTest extends AcceptanceTest {
 		HashMap<String, String> params = new HashMap<>();
 		params.put("email", "test");
 		params.put("nickname", "test");
-		params.put("id", jwtService.getUserId(jwtToken));
 
 		String updatedJwtToken = 회원가입(jwtToken, params).jsonPath().getString("data.jwtToken");
 
@@ -79,7 +78,6 @@ public class AuthAcceptanceMockTest extends AcceptanceTest {
 		HashMap<String, String> params = new HashMap<>();
 		params.put("email", "test");
 		params.put("nickname", "test");
-		params.put("id", jwtService.getUserId(jwtToken));
 		ExtractableResponse<Response> response = 회원가입(jwtToken, params);
 		assertThat(response.statusCode()).isEqualTo(200);
 	}

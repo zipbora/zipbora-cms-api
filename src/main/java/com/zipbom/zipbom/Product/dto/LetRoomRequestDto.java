@@ -59,4 +59,6 @@ public class LetRoomRequestDto {
 
 	private double latitude;
 	private double longitude;
+
+	private long price;
 }
