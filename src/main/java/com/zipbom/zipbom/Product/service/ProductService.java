@@ -100,12 +100,17 @@ public class ProductService {
 			.selectFrom(product)
 			.where(product.latitude.between(productFilterRequest.getLowerLatitude()
 				, productFilterRequest.getUpperLatitude()))
-			.where(product.latitude.between(productFilterRequest.getLowerLongitude()
+			.where(product.longitude.between(productFilterRequest.getLowerLongitude()
 				, productFilterRequest.getUpperLongitude()))
+			.where(product.price.between(productFilterRequest.getLowerPrice()
+				, productFilterRequest.getUpperPrice()))
+			.where(product.maintenanceFees.between(productFilterRequest.getLowerMaintenanceFees()
+				, productFilterRequest.getUpperMaintenanceFees()))
 			.where(product.price.between(productFilterRequest.getLowerPrice()
 				, productFilterRequest.getUpperPrice()))
 			.where(isEqTradeType(productFilterRequest.getTradeType()))
 			.where(isEqProductType(productFilterRequest.getProductType()))
+			.where(isEqNewBuilding(productFilterRequest.isNewBuilding()))
 			.fetch();
 
 		return new SuccessResponseDto<>(true, products.stream()
@@ -128,8 +133,10 @@ public class ProductService {
 	private BooleanExpression isEqTradeType(TradeType tradeType) {
 		return tradeType != null ? product.tradeType.eq(tradeType) : null;
 	}
-
 	private BooleanExpression isEqProductType(ProductType productType) {
 		return productType != null ? product.productType.eq(productType) : null;
+	}
+	private BooleanExpression isEqNewBuilding(Boolean isNewBuilding) {
+		return isNewBuilding != null ? product.isNewBuilding.eq(isNewBuilding) : null;
 	}
 }

@@ -59,7 +59,7 @@ public class Product {
     private boolean isAgent;
     private double latitude;
     private double longitude;
-
+    private boolean isNewBuilding;
 
     protected Product() {
     }

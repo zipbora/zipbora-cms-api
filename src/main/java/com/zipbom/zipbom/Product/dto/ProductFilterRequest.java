@@ -17,4 +17,12 @@ public class ProductFilterRequest {
 	private long lowerPrice;
 	private TradeType tradeType;
 	private ProductType productType;
+	private int upperMaintenanceFees;
+	private int lowerMaintenanceFees;
+	private int numberOfRooms;
+	private int livingFloor;
+	private boolean canPet;
+	private boolean haveElevator;
+	private boolean haveParkingLot;
+	private boolean isNewBuilding;
 }
