@@ -54,16 +54,15 @@ public class ProductStep {
 	}
 
 	public static HashMap<String, String> createProduct() {
-		HashMap<String, String> userInfo = new HashMap<>();
-		userInfo.put("address", "seoul");
-		userInfo.put("detailAddress", "mokdong");
-		userInfo.put("haveLoan", "true");
-		userInfo.put("productType", "APARTMENT");
-		userInfo.put("latitude", "50");
-		userInfo.put("longitude", "50");
-		userInfo.put("productType", "APARTMENT");
-		userInfo.put("price", "1000000000");
-		userInfo.put("tradeType", "lease");
-		return userInfo;
+		HashMap<String, String> productInfo = new HashMap<>();
+		productInfo.put("address", "seoul");
+		productInfo.put("detailAddress", "mokdong");
+		productInfo.put("haveLoan", "true");
+		productInfo.put("latitude", "50");
+		productInfo.put("longitude", "50");
+		productInfo.put("productType", "APARTMENT");
+		productInfo.put("price", "1000000000");
+		productInfo.put("tradeType", "lease");
+		return productInfo;
 	}
 }

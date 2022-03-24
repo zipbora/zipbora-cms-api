@@ -13,8 +13,8 @@ public class ProductFilterRequest {
 	private double upperLongitude;
 	private double lowerLatitude;
 	private double lowerLongitude;
-	private ProductType productType;
 	private long upperPrice;
 	private long lowerPrice;
 	private TradeType tradeType;
+	private ProductType productType;
 }

@@ -8,8 +8,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.zipbom.zipbom.Product.model.ProductType;
 import com.zipbom.zipbom.Product.model.TradeType;
-
-import lombok.Builder;
 import lombok.Data;
 
 @Data

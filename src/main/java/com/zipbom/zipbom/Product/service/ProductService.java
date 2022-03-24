@@ -1,5 +1,7 @@
 package com.zipbom.zipbom.Product.service;
 
+import static com.zipbom.zipbom.Product.model.QProduct.*;
+
 import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.zipbom.zipbom.Auth.jwt.JwtServiceImpl;
 import com.zipbom.zipbom.Auth.model.User;
@@ -22,7 +25,9 @@ import com.zipbom.zipbom.Product.dto.ProductResponse;
 import com.zipbom.zipbom.Product.model.Product;
 import com.zipbom.zipbom.Product.model.ProductImage;
 import com.zipbom.zipbom.Product.model.ProductImages;
+import com.zipbom.zipbom.Product.model.ProductType;
 import com.zipbom.zipbom.Product.model.QProduct;
+import com.zipbom.zipbom.Product.model.TradeType;
 import com.zipbom.zipbom.Product.repository.ProductImageRepository;
 import com.zipbom.zipbom.Product.repository.ProductRepository;
 import com.zipbom.zipbom.Util.response.CMRespDto;
@@ -91,16 +96,16 @@ public class ProductService {
 	public SuccessResponseDto<?> getProductsByFilter(ProductFilterRequest productFilterRequest) {
 
 		JPAQueryFactory jpaQueryFactory = new JPAQueryFactory(em);
-		QProduct p = QProduct.product;
 		List<Product> products = jpaQueryFactory
-			.selectFrom(p)
-			.where(p.latitude.between(productFilterRequest.getLowerLatitude()
+			.selectFrom(product)
+			.where(product.latitude.between(productFilterRequest.getLowerLatitude()
 				, productFilterRequest.getUpperLatitude()))
-			.where(p.latitude.between(productFilterRequest.getLowerLongitude()
+			.where(product.latitude.between(productFilterRequest.getLowerLongitude()
 				, productFilterRequest.getUpperLongitude()))
-			.where(p.price.between(productFilterRequest.getLowerPrice()
+			.where(product.price.between(productFilterRequest.getLowerPrice()
 				, productFilterRequest.getUpperPrice()))
-			.where(p.tradeType.eq(productFilterRequest.getTradeType()))
+			.where(isEqTradeType(productFilterRequest.getTradeType()))
+			.where(isEqProductType(productFilterRequest.getProductType()))
 			.fetch();
 
 		return new SuccessResponseDto<>(true, products.stream()
@@ -118,5 +123,13 @@ public class ProductService {
 		return new SuccessResponseDto<>(true, products.stream()
 			.map(product -> new ProductResponse(product))
 			.collect(Collectors.toList()));
+	}
+
+	private BooleanExpression isEqTradeType(TradeType tradeType) {
+		return tradeType != null ? product.tradeType.eq(tradeType) : null;
+	}
+
+	private BooleanExpression isEqProductType(ProductType productType) {
+		return productType != null ? product.productType.eq(productType) : null;
 	}
 }
