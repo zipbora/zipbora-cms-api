@@ -1,6 +1,6 @@
 version: '3.7'
 services:
-  nextjs:
+  zipbora-springboot:
     container_name: zipbora-cms-api
     network_mode: "host"
     build: ./
